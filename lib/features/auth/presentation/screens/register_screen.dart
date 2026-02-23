@@ -306,7 +306,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Container(
                     width: 100,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(30),
                       border: Border.all(color: AppColors.yellowBorder, width: 2),
 
                     ),
@@ -314,10 +314,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       spacing: 10,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage(AppAssets.enIcon),
+                        Container(
+
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage(AppAssets.enIcon),
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppColors.yellow, width: 3),
+                            borderRadius: BorderRadius.circular(50)
+                          ),
                         ),
                         CircleAvatar(
+
                           backgroundImage: AssetImage(AppAssets.egIcon),
                         ),
                       ]
