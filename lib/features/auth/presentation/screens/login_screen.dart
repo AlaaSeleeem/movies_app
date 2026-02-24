@@ -12,7 +12,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = const Color(0xFFEAB345);
+    final themeColor = const Color(0xFFF6BD00);
     final fieldColor = const Color(0xFF252525);
 
     return Scaffold(
@@ -25,13 +25,13 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const SizedBox(height: 60),
 
-              // --- Logo Section ---
-              Icon(
-                Image.asset('assets/images/main_logo.png') as IconData?,
-                size: 140,
-                color: themeColor,
+              // --- App Logo ---
+              Image.asset(
+                'assets/images/main_logo.png',
+                width: 200,
+                height: 200,
+                fit: BoxFit.contain,
               ),
-              const SizedBox(height: 50),
 
               // --- Email Field ---
               _buildTextField(
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       "Create One",
                       style: TextStyle(
                         color: themeColor,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -104,17 +104,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Expanded(
                     child: Divider(
-                      color: themeColor.withOpacity(0.5),
+                      color: themeColor.withOpacity(1.0),
                       endIndent: 10,
                     ),
                   ),
                   Text("OR", style: TextStyle(color: themeColor)),
-                  Expanded(
-                    child: Divider(
-                      color: themeColor.withOpacity(0.5),
-                      indent: 10,
-                    ),
-                  ),
+                  Expanded(child: Divider(color: themeColor, indent: 10)),
                 ],
               ),
               const SizedBox(height: 25),
@@ -122,9 +117,13 @@ class _LoginScreenState extends State<LoginScreen> {
               // --- Google Login ---
               _buildActionButton(
                 label: "Login With Google",
-                color: themeColor.withOpacity(0.8),
+                color: themeColor.withOpacity(1.0),
                 textColor: Colors.black,
-                icon: Icons.g_mobiledata,
+                icon: Image.asset(
+                  'assets/icons/google_icon.png',
+                  width: 30,
+                  height: 30,
+                ),
                 onPressed: () {},
               ),
               const SizedBox(height: 40),
@@ -174,12 +173,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Helper: Large Button Builder
+  // Large Button Builder
   Widget _buildActionButton({
     required String label,
     required Color color,
     required Color textColor,
-    IconData? icon,
+    Widget? icon,
     required VoidCallback onPressed,
   }) {
     return SizedBox(
@@ -197,10 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (icon != null) ...[
-              Icon(icon, color: textColor, size: 30),
-              const SizedBox(width: 8),
-            ],
+            if (icon != null) ...[icon, const SizedBox(width: 8)],
             Text(
               label,
               style: TextStyle(
@@ -215,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Helper: Language Toggle UI
+  // Language Toggle UI
   Widget _buildLanguageToggle(Color themeColor) {
     return Container(
       padding: const EdgeInsets.all(4),
@@ -227,15 +223,18 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildFlagCircle(Colors.red), // assets/icons/EN_icon.png
-          const SizedBox(width: 8),
-          _buildFlagCircle(Colors.blue), // assets/icons/Eg_icon.png
+          Image(
+            image: AssetImage('assets/icons/EN_icon.png'),
+            width: 28,
+            height: 28,
+          ),
+          Image(
+            image: AssetImage('assets/icons/EG_icon.png'),
+            width: 28,
+            height: 28,
+          ),
         ],
       ),
     );
-  }
-
-  Widget _buildFlagCircle(Color color) {
-    return CircleAvatar(radius: 14, backgroundColor: color);
   }
 }
