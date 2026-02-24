@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/constants/app_assets.dart';
 import 'package:movies_app/core/constants/app_colors.dart';
 import 'package:movies_app/core/theme/app_theme.dart';
@@ -13,17 +14,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController emailController = TextEditingController(
       text: 'alaa@tech.ly'
   );
-  // TextEditingController passwordController = TextEditingController(
-  //     text: '123Aaa##'
-  // );
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmController = TextEditingController();
 
   bool _isPasswordVisible = false;
   bool _isConfirmVisible = false;
-
-  final _formKey = GlobalKey<FormState>();
-
   bool isSecure = false;
   final formkey = GlobalKey<FormState>();
 
@@ -34,67 +29,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         leading: Icon(Icons.arrow_back, color: AppColors.yellow,),
         title:Text("Register", textAlign: TextAlign.center,
-          style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          spacing: 10,
+          spacing: 10.sp,
           children: [
-            // the avatars may be edited
+            // the avatars may be edited to be scrollable
             Row(
-              spacing: 20,
+              spacing: 20.sp,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircleAvatar(
                   backgroundImage: AssetImage(AppAssets.avatars[0]),
-                  radius: 50,
-
+                  radius: 40.sp,
                 ),
                 CircleAvatar(
                   backgroundImage: AssetImage(AppAssets.mainAvatar),
-                  radius: 70,
-
+                  radius: 60.sp,
                 ),
                 CircleAvatar(
                   backgroundImage: AssetImage(AppAssets.avatars[1]),
-                  radius: 50,
-
+                  radius: 40.sp,
                 ),
               ]
             ),
             Form(
               key: formkey,
               child: Column(
-                spacing: 20,
+                spacing: 20.sp,
                 children: [
                   // name field
                   TextFormField(
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.grey,
                       hintText: "Name",
-                      hintStyle: TextStyle(color: AppColors.white, fontWeight: FontWeight.w400, fontSize: 16),
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Image.asset(
-                          height: 20,
-                          width: 20,
+                          height: 20.sp,
+                          width: 20.sp,
                           AppAssets.nameIcon,
-                          color: AppColors.white,
                         ),
-                      ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                     // email field
@@ -103,28 +81,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.grey,
                       hintText: "Email",
-                      hintStyle: TextStyle(color: AppColors.white, fontWeight: FontWeight.w400, fontSize: 16),
-                        prefixIcon: Padding(
+                      prefixIcon: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Image.asset(
-                            height: 20,
-                            width: 20,
+                            height: 20.sp,
+                            width: 20.sp,
                             AppAssets.emailIcon,
-                            color: AppColors.white,
                           ),
                         ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
                     ),
 
                   ),
@@ -133,26 +98,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _passwordController,
                     obscureText: !_isPasswordVisible,
                     decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.grey,
                       hintText: " Password",
                       hintStyle: TextStyle(color: AppColors.white, fontWeight: FontWeight.w400, fontSize: 16),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Image.asset(
-                          width: 20,
-                          height: 20,
+                          width: 20.sp,
+                          height: 20.sp,
                           AppAssets.passwordIcon,
-                          color: AppColors.white,
                         ),
                       ),
                       suffixIcon: IconButton(
@@ -160,7 +113,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           _isPasswordVisible
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color: AppColors.white,
                         ),
                         onPressed: () {
                           setState(() {
@@ -186,26 +138,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: !_isConfirmVisible,
 
                     decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.grey,
                       hintText: " Confirm Password",
-                      hintStyle: TextStyle(color: AppColors.white, fontWeight: FontWeight.w400, fontSize: 16),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Image.asset(
-                          width: 20,
-                          height: 20,
+                          width: 20.sp,
+                          height: 20.sp,
                           AppAssets.passwordIcon,
-                          color: AppColors.white,
                         ),
                       ),
                       suffixIcon: IconButton(
@@ -213,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           _isConfirmVisible
                               ? Icons.visibility
                               : Icons.visibility_off,
-                        color: AppColors.white,),
+                        ),
                         onPressed: () {
                           setState(() {
                             _isConfirmVisible = !_isConfirmVisible;
@@ -232,27 +171,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.grey,
                       hintText: "Phone Number",
-                      hintStyle: TextStyle(color: AppColors.white, fontWeight: FontWeight.w400, fontSize: 16),
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Image.asset(
-                          height: 20,
-                          width: 20,
+                          height: 20.sp,
+                          width: 20.sp,
                           AppAssets.phoneIcon,
                           color: AppColors.white,
                         ),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                     // email field
@@ -261,15 +188,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.yellow,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                        ),
                         onPressed: (){},
                         child: Text("Create Account",
                             style: TextStyle(
                                 color: AppColors.black,
-                                fontSize: 16,
+                              fontSize: 16.sp,
                             ))),
                   ),
                   Row(
@@ -277,7 +200,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: [
                   const Text(
                     "Already have an account? ",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 16),
                   ),
                   TextButton(
                     onPressed: () {
@@ -288,7 +213,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       padding: EdgeInsets.zero,
                       minimumSize: const Size(0, 0),
                       textStyle: TextStyle(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w400
                       )
                     ),
@@ -296,7 +221,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       "Login",
                       style: TextStyle(
                         color: AppColors.yellow,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                       ),
                       ),
@@ -304,28 +229,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
                   Container(
-                    width: 100,
+                    width: 90.sp,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: AppColors.yellowBorder, width: 2),
+                      borderRadius: BorderRadius.circular(30.sp),
+                      border: Border.all(color: AppColors.yellowBorder, width: 2.sp),
 
                     ),
                     child: Row(
-                      spacing: 10,
+                      spacing: 10.sp,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppColors.yellow, width: 3.sp),
+                            borderRadius: BorderRadius.circular(50.sp)
+                          ),
                           child: CircleAvatar(
                             backgroundImage: AssetImage(AppAssets.enIcon),
                           ),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.yellow, width: 3),
-                            borderRadius: BorderRadius.circular(50)
-                          ),
                         ),
                         CircleAvatar(
-
                           backgroundImage: AssetImage(AppAssets.egIcon),
                         ),
                       ]

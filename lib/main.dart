@@ -3,9 +3,12 @@ import 'package:movies_app/features/auth/presentation/screens/register_screen.da
 
 import 'core/constants/app_colors.dart';
 import 'core/theme/app_theme.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 void main() {
-  runApp(const MyApp());
+      runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -13,10 +16,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      theme: AppTheme.appTheme,
-      debugShowCheckedModeBanner: false,
-      home: RegisterScreen(), // هنا تحطي السكرين متاعك
+    return  ScreenUtilInit(
+        designSize: Size(390, 844), // your design size (width x height)
+        minTextAdapt: true, // adjusts text for small screens
+        builder: (context, child) => MaterialApp(
+          theme: AppTheme.appTheme,
+          title: 'Movies App',
+          debugShowCheckedModeBanner: false,
+          home: RegisterScreen(),
+      ),
     );
   }
 }

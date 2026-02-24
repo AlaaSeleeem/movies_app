@@ -21,6 +21,8 @@ abstract class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       fillColor: AppColors.grey,
       filled: true,
+      prefixIconColor: AppColors.white,
+      suffixIconColor: AppColors.white,
       focusedBorder: OutlineInputBorder(
       ),
       enabledBorder: OutlineInputBorder(
@@ -38,6 +40,7 @@ abstract class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 16),
         backgroundColor: AppColors.yellow,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
