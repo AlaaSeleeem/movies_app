@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'features/splash/presentation/screens/splash_screen.dart';
+import 'features/onboarding/presentation/widgets/onboarding_page.dart';
+//import 'features/splash/presentation/screens/splash_screen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const SplashScreen(),
+      //home: const SplashScreen(),
+      home:  OnboardingPage(),
     );
   }
 }
