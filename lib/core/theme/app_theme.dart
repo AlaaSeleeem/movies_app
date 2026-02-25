@@ -8,6 +8,8 @@ class AppTheme {
     scaffoldBackgroundColor: AppColors.black,
     brightness: Brightness.dark,
     useMaterial3: true,
+
+    // ── AppBar ──────────────────────────────────────────────
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.black,
       elevation: 0,
@@ -18,6 +20,8 @@ class AppTheme {
         fontWeight: FontWeight.w400,
       ),
     ),
+
+    // ── Input ───────────────────────────────────────────────
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.grey,
@@ -44,18 +48,30 @@ class AppTheme {
         borderRadius: BorderRadius.circular(15.r),
         borderSide: BorderSide(color: AppColors.red),
       ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15.r),
+        borderSide: BorderSide(color: AppColors.red),
+      ),
     ),
+
+    // ── Elevated Button ─────────────────────────────────────
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.yellow,
         foregroundColor: AppColors.black,
         elevation: 0,
+        padding: EdgeInsets.symmetric(vertical: 16.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.r),
         ),
-        textStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+        textStyle: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     ),
+
+    // ── Text ────────────────────────────────────────────────
     textTheme: TextTheme(
       bodyLarge: TextStyle(color: AppColors.white, fontSize: 16.sp),
       bodyMedium: TextStyle(color: AppColors.white, fontSize: 14.sp),
