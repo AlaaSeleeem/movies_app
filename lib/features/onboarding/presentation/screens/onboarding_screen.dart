@@ -5,33 +5,33 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// Primary Button
 /// =======================
 class PrimaryButton extends StatelessWidget {
-final String text;
-final VoidCallback onPressed;
+  final String text;
+  final VoidCallback onPressed;
 
-const PrimaryButton({
-super.key,
-required this.text,
-required this.onPressed,
-});
+  const PrimaryButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+  });
 
-@override
-Widget build(BuildContext context) {
-return SizedBox(
-height: 56.h,
-width: double.infinity,
-child: ElevatedButton(
-onPressed: onPressed,
-child: Text(
-text,
-style: TextStyle(
-color: AppColors.black,
-fontSize: 18.sp,
-fontWeight: FontWeight.w700,
-),
-),
-),
-);
-}
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 48.h,
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: AppColors.black,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 /// =======================
@@ -50,7 +50,7 @@ class SecondaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56.h,
+      height: 48.h,
       width: double.infinity,
       child: OutlinedButton(
         onPressed: onPressed,
@@ -94,7 +94,7 @@ class OnboardingBottomCard extends StatelessWidget {
     required this.primaryText,
     required this.onPrimary,
     this.onBack,
-    this.heightFactor = 0.34,
+    this.heightFactor = 0.30,
     this.titleSize,
     this.descriptionSize,
     this.maxDescriptionLines,
@@ -110,19 +110,19 @@ class OnboardingBottomCard extends StatelessWidget {
         height: size.height * heightFactor,
         padding: const EdgeInsets.fromLTRB(24, 28, 24, 32),
         decoration: BoxDecoration(
-          color: AppColors.black.withOpacity(0.88),
+          color: AppColors.black,//.withOpacity(0.88),
           borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height:12.h),
+            SizedBox(height:14.h),
             Text(
               title,
               textAlign: TextAlign.center,
               style:  TextStyle(
                 color: AppColors.white,
-                fontSize: 26.sp,
+                fontSize: 23.sp,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -201,7 +201,7 @@ class OnboardingIntroScreen extends StatelessWidget {
                     height: 1.2.h,
                   ),
                 ),
-                 SizedBox(height: 16.h),
+                SizedBox(height: 16.h),
                 Text(
                   'Get access to a huge library of movies\n'
                       'to suit all tastes. You will surely like it.',
@@ -214,7 +214,7 @@ class OnboardingIntroScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 32.h),
                 PrimaryButton(text: 'Explore Now', onPressed: onNext),
-                 SizedBox(height: 32.h),
+                SizedBox(height: 32.h),
               ],
             ),
           ),
@@ -245,6 +245,7 @@ class OnboardingImageScreen extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Image.asset(image, fit: BoxFit.cover),
+
         ),
         Positioned.fill(
           child: Container(

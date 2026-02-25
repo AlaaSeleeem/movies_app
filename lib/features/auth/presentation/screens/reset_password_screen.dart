@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movies_app/features/auth/presentation/screens/login_screen.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_colors.dart';
 
@@ -11,9 +12,14 @@ class ResetPasswordScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            Navigator.pop(
+              context
+            );
+          },
           child: Icon(Icons.arrow_back, color: AppColors.yellow, size: 22.sp),
         ),
+
         title: const Text('Forget Password'),
       ),
       body: Padding(

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movies_app/features/auth/presentation/screens/reset_password_screen.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/auth_text_field.dart';
+import 'update_profile_screen.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -40,7 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const ResetPasswordScreen()),
+                    );
+                  },
                   child: Text(
                     'Forget Password ?',
                     style: TextStyle(color: AppColors.yellow, fontSize: 14.sp),
@@ -48,7 +57,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 15.h),
-              AuthButton(label: 'Login', onPressed: () {}),
+              AuthButton(
+                label: 'Login',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const UpdateProfileScreen()),
+                  );
+                },
+              ),
               SizedBox(height: 20.h),
               _buildCreateAccountRow(),
               SizedBox(height: 25.h),
@@ -70,24 +88,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildCreateAccountRow() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'Don’t Have Account ? ',
-          style: TextStyle(color: AppColors.white, fontSize: 14.sp),
-        ),
-        GestureDetector(
-          onTap: () {},
-          child: Text(
-            'Create One',
-            style: TextStyle(
-              color: AppColors.yellow,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ],
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+    Text(
+    'Dont Have Account ? ',
+    style: TextStyle(color: AppColors.white, fontSize: 14.sp),
+    ),
+    GestureDetector(
+    onTap: () {
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (_) => const RegisterScreen()),
+    );
+    },
+    child: Text(
+    'Create One',
+    style: TextStyle(
+    color: AppColors.yellow,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.bold,
+    ),
+    ),
+    ),
+    ],
     );
   }
 

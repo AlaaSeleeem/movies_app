@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/features/auth/presentation/screens/login_screen.dart';
 import '../screens/onboarding_screen.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -84,8 +85,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
               onBack: _back,
               titleSize:28,
               descriptionSize:19,
-              heightFactor: 0.44,
-              maxDescriptionLines: 3,
+              heightFactor: 0.46,
+              maxDescriptionLines: 4,
             ),
           ),
 
@@ -112,9 +113,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
             bottomCard: OnboardingBottomCard(
               title: 'Start Watching Now',
               primaryText: 'Finish',
-
               onPrimary: () {
-                // TODO: Navigate to Home
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
+                );
               },
               onBack: _back,
             ),

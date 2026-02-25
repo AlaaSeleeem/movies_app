@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/constants/app_assets.dart';
 import 'package:movies_app/core/constants/app_colors.dart';
 import 'package:movies_app/core/theme/app_theme.dart';
+import 'login_screen.dart';
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -27,7 +29,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: AppColors.black,
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back, color: AppColors.yellow,),
+        leading: GestureDetector( onTap: () {
+          Navigator.pop(
+            context,
+          );
+        },child: Icon(Icons.arrow_back, color: AppColors.yellow,)),
+
+
         title:Text("Register", textAlign: TextAlign.center,
         ),
       ),
@@ -38,22 +46,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             // the avatars may be edited to be scrollable
             Row(
-              spacing: 20.sp,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage(AppAssets.avatars[0]),
-                  radius: 40.sp,
-                ),
-                CircleAvatar(
-                  backgroundImage: AssetImage(AppAssets.mainAvatar),
-                  radius: 60.sp,
-                ),
-                CircleAvatar(
-                  backgroundImage: AssetImage(AppAssets.avatars[1]),
-                  radius: 40.sp,
-                ),
-              ]
+                spacing: 20.sp,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(AppAssets.avatars[0]),
+                    radius: 40.sp,
+                  ),
+                  CircleAvatar(
+                    backgroundImage: AssetImage(AppAssets.mainAvatar),
+                    radius: 60.sp,
+                  ),
+                  CircleAvatar(
+                    backgroundImage: AssetImage(AppAssets.avatars[1]),
+                    radius: 40.sp,
+                  ),
+                ]
             ),
             Form(
               key: formkey,
@@ -75,23 +83,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    // email field
                   ),
+                  // email field
                   TextFormField(
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       hintText: "Email",
                       prefixIcon: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Image.asset(
-                            height: 20.sp,
-                            width: 20.sp,
-                            AppAssets.emailIcon,
-                          ),
+                        padding: const EdgeInsets.all(12.0),
+                        child: Image.asset(
+                          height: 20.sp,
+                          width: 20.sp,
+                          AppAssets.emailIcon,
                         ),
+                      ),
                     ),
-
                   ),
                   // password field
                   TextFormField(
@@ -136,7 +143,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextFormField(
                     controller: _confirmController,
                     obscureText: !_isConfirmVisible,
-
                     decoration: InputDecoration(
                       hintText: " Confirm Password",
                       prefixIcon: Padding(
@@ -167,6 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
+                  // phone field
                   TextFormField(
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
@@ -182,81 +189,86 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    // email field
                   ),
                   // create Account btn
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                        onPressed: (){},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => const LoginScreen()),
+                          );
+                        },
                         child: Text("Create Account",
                             style: TextStyle(
-                                color: AppColors.black,
+                              color: AppColors.black,
                               fontSize: 16.sp,
                             ))),
                   ),
                   Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Already have an account? ",
-                    style: TextStyle(
-                        color: AppColors.white,
-                        fontSize: 16),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      //should be edited later
-                      Navigator.pushNamed(context, '/login');
-                    },
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      minimumSize: const Size(0, 0),
-                      textStyle: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400
-                      )
-                    ),
-                    child: Text(
-                      "Login",
-                      style: TextStyle(
-                        color: AppColors.yellow,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Already have an account? ",
+                        style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 16),
                       ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => const LoginScreen()),
+                          );
+                        },
+                        style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: const Size(0, 0),
+                            textStyle: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400
+                            )
+                        ),
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
+                            color: AppColors.yellow,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
+                    ],
                   ),
-                ],
-              ),
                   Container(
-                    width: 90.sp,
+                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.sp),
-                      border: Border.all(color: AppColors.yellowBorder, width: 2.sp),
-
+                      borderRadius: BorderRadius.circular(30.r),
+                      border: Border.all(color: AppColors.yellowBorder, width: 2),
                     ),
                     child: Row(
-                      spacing: 10.sp,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.yellow, width: 3.sp),
-                            borderRadius: BorderRadius.circular(50.sp)
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: AppColors.yellow, width: 2),
+                                borderRadius: BorderRadius.circular(50.r)
+                            ),
+                            child: CircleAvatar(
+                              radius: 16.r,
+                              backgroundImage: AssetImage(AppAssets.enIcon),
+                            ),
                           ),
-                          child: CircleAvatar(
-                            backgroundImage: AssetImage(AppAssets.enIcon),
+                          SizedBox(width: 8.w),
+                          CircleAvatar(
+                            radius: 16.r,
+                            backgroundImage: AssetImage(AppAssets.egIcon),
                           ),
-                        ),
-                        CircleAvatar(
-                          backgroundImage: AssetImage(AppAssets.egIcon),
-                        ),
-                      ]
+                        ]
                     ),
                   )
-
-                  ],
-
+                ],
               ),
             ),
           ],
