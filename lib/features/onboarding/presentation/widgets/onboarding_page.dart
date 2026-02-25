@@ -84,8 +84,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
               onBack: _back,
               titleSize:28,
               descriptionSize:19,
-              heightFactor: 0.44,
-              maxDescriptionLines: 3,
+              heightFactor: 0.46,
+              maxDescriptionLines: 4,
             ),
           ),
 

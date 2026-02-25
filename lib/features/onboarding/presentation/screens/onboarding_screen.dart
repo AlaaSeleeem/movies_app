@@ -17,7 +17,7 @@ required this.onPressed,
 @override
 Widget build(BuildContext context) {
 return SizedBox(
-height: 56.h,
+height: 48.h,
 width: double.infinity,
 child: ElevatedButton(
 onPressed: onPressed,
@@ -50,7 +50,7 @@ class SecondaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56.h,
+      height: 48.h,
       width: double.infinity,
       child: OutlinedButton(
         onPressed: onPressed,
@@ -94,7 +94,7 @@ class OnboardingBottomCard extends StatelessWidget {
     required this.primaryText,
     required this.onPrimary,
     this.onBack,
-    this.heightFactor = 0.34,
+    this.heightFactor = 0.30,
     this.titleSize,
     this.descriptionSize,
     this.maxDescriptionLines,
@@ -110,19 +110,19 @@ class OnboardingBottomCard extends StatelessWidget {
         height: size.height * heightFactor,
         padding: const EdgeInsets.fromLTRB(24, 28, 24, 32),
         decoration: BoxDecoration(
-          color: AppColors.black.withOpacity(0.88),
+          color: AppColors.black,//.withOpacity(0.88),
           borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height:12.h),
+            SizedBox(height:14.h),
             Text(
               title,
               textAlign: TextAlign.center,
               style:  TextStyle(
                 color: AppColors.white,
-                fontSize: 26.sp,
+                fontSize: 23.sp,
                 fontWeight: FontWeight.w700,
               ),
             ),

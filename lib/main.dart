@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movies_app/features/splash/presentation/screens/splash_screen.dart';
+import'features/splash/presentation/screens/splash_screen.dart';
 import 'features/onboarding/presentation/widgets/onboarding_page.dart';
 
 void main(){
@@ -39,10 +41,10 @@ class MyApp extends StatelessWidget {
             ),
           ),
 
-          home: child,
+          home:child,
         );
       },
-      child: OnboardingPage(),
+      child: SplashScreen(),
     );
   }
 }

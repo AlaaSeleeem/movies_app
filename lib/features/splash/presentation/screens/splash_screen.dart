@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/features/onboarding/presentation/widgets/onboarding_page.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // بعد 3 ثواني يروح للأون بوردينج
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const OnboardingPage()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
