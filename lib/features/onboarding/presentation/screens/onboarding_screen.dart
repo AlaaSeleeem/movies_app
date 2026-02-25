@@ -1,42 +1,37 @@
 import 'package:flutter/material.dart';
-
+import 'package:movies_app/core/constants/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// =======================
 /// Primary Button
 /// =======================
 class PrimaryButton extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed;
+final String text;
+final VoidCallback onPressed;
 
-  const PrimaryButton({
-    super.key,
-    required this.text,
-    required this.onPressed,
-  });
+const PrimaryButton({
+super.key,
+required this.text,
+required this.onPressed,
+});
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 56,
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFFFC107),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-    );
-  }
+@override
+Widget build(BuildContext context) {
+return SizedBox(
+height: 56.h,
+width: double.infinity,
+child: ElevatedButton(
+onPressed: onPressed,
+child: Text(
+text,
+style: TextStyle(
+color: AppColors.black,
+fontSize: 18.sp,
+fontWeight: FontWeight.w700,
+),
+),
+),
+);
+}
 }
 
 /// =======================
@@ -55,21 +50,21 @@ class SecondaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56,
+      height: 56.h,
       width: double.infinity,
       child: OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
-          side: const BorderSide(color: Color(0xFFFFC107), width: 2),
+          side:  BorderSide(color: AppColors.yellow, width: 2.w),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
           ),
         ),
         child: Text(
           text,
-          style: const TextStyle(
-            color: Color(0xFFFFC107),
-            fontSize: 18,
+          style: TextStyle(
+            color: AppColors.yellow,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -115,39 +110,39 @@ class OnboardingBottomCard extends StatelessWidget {
         height: size.height * heightFactor,
         padding: const EdgeInsets.fromLTRB(24, 28, 24, 32),
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.88),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          color: AppColors.black.withOpacity(0.88),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(height:12),
+            SizedBox(height:12.h),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 26,
+              style:  TextStyle(
+                color: AppColors.white,
+                fontSize: 26.sp,
                 fontWeight: FontWeight.w700,
               ),
             ),
             if (description != null) ...[
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Text(
                 description!,
                 textAlign: TextAlign.center,
                 maxLines:maxDescriptionLines,
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.85),
-                  fontSize: 17,
-                  height: 1.6,
+                  color: AppColors.white.withOpacity(0.85),
+                  fontSize: 17.sp,
+                  height: 1.6.h,
                 ),
               ),
             ],
             const SizedBox(height: 24),
             PrimaryButton(text: primaryText, onPressed: onPrimary),
             if (onBack != null) ...[
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               SecondaryButton(text: 'Back', onPressed: onBack!),
             ],
           ],
@@ -200,26 +195,26 @@ class OnboardingIntroScreen extends StatelessWidget {
                   'Find Your Next\nFavorite Movie Here',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontSize: size.width * 0.075,
                     fontWeight: FontWeight.w700,
-                    height: 1.2,
+                    height: 1.2.h,
                   ),
                 ),
-                const SizedBox(height: 16),
+                 SizedBox(height: 16.h),
                 Text(
                   'Get access to a huge library of movies\n'
                       'to suit all tastes. You will surely like it.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
+                    color: AppColors.white.withOpacity(0.7),
                     fontSize: size.width * 0.04,
-                    height: 1.4,
+                    height: 1.4.h,
                   ),
                 ),
-                const SizedBox(height: 32),
+                SizedBox(height: 32.h),
                 PrimaryButton(text: 'Explore Now', onPressed: onNext),
-                const SizedBox(height: 32),
+                 SizedBox(height: 32.h),
               ],
             ),
           ),
@@ -253,7 +248,7 @@ class OnboardingImageScreen extends StatelessWidget {
         ),
         Positioned.fill(
           child: Container(
-            color: Colors.black.withOpacity(overlayOpacity),
+            color: AppColors.black.withOpacity(overlayOpacity),
           ),
         ),
         bottomCard,
