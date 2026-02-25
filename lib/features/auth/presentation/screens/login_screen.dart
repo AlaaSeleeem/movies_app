@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../core/constants/app_assets.dart';
+import '../widgets/auth_button.dart';
+import '../widgets/auth_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,125 +17,50 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = const Color(0xFFF6BD00);
-    final fieldColor = const Color(0xFF252525);
-
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: AppColors.black,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 60),
-
-              // --- App Logo ---
-              Image.asset(
-                'assets/images/main_logo.png',
-                width: 200,
-                height: 200,
-                fit: BoxFit.contain,
-              ),
-
-              // --- Email Field ---
-              _buildTextField(
-                hint: "Email",
-                icon: Icons.email,
-                fillColor: fieldColor,
-              ),
-              const SizedBox(height: 16),
-
-              // --- Password Field ---
-              _buildTextField(
-                hint: "Password",
-                icon: Icons.lock,
-                fillColor: fieldColor,
+              SizedBox(height: 60.h),
+              Image.asset(AppAssets.loginIcon, width: 100.w, height: 100.w),
+              SizedBox(height: 40.h),
+              AuthTextField(hint: 'Email', icon: Icons.email_rounded),
+              SizedBox(height: 16.h),
+              AuthTextField(
+                hint: 'Password',
+                icon: Icons.lock_rounded,
                 isPassword: true,
                 obscureText: _obscurePassword,
-                onSuffixTap: () {
-                  setState(() {
-                    _obscurePassword = !_obscurePassword;
-                  });
-                },
+                onSuffixTap: () =>
+                    setState(() => _obscurePassword = !_obscurePassword),
               ),
-
-              // --- Forget Password ---
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {},
                   child: Text(
-                    "Forget Password ?",
-                    style: TextStyle(color: themeColor, fontSize: 14),
+                    'Forget Password ?',
+                    style: TextStyle(color: AppColors.yellow, fontSize: 14.sp),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
-
-              // --- Login Button ---
-              _buildActionButton(
-                label: "Login",
-                color: themeColor,
-                textColor: Colors.black,
+              SizedBox(height: 15.h),
+              AuthButton(label: 'Login', onPressed: () {}),
+              SizedBox(height: 20.h),
+              _buildCreateAccountRow(),
+              SizedBox(height: 25.h),
+              _buildDivider(),
+              SizedBox(height: 25.h),
+              AuthButton(
+                label: 'Login With Google',
+                icon: Image.asset(AppAssets.googleIcon, width: 22.w),
                 onPressed: () {},
               ),
-              const SizedBox(height: 20),
-
-              // --- Create Account Link ---
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Don’t Have Account ? ",
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Create One",
-                      style: TextStyle(
-                        color: themeColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 25),
-
-              // --- Divider ---
-              Row(
-                children: [
-                  Expanded(
-                    child: Divider(
-                      color: themeColor.withOpacity(1.0),
-                      endIndent: 10,
-                    ),
-                  ),
-                  Text("OR", style: TextStyle(color: themeColor)),
-                  Expanded(child: Divider(color: themeColor, indent: 10)),
-                ],
-              ),
-              const SizedBox(height: 25),
-
-              // --- Google Login ---
-              _buildActionButton(
-                label: "Login With Google",
-                color: themeColor.withOpacity(1.0),
-                textColor: Colors.black,
-                icon: Image.asset(
-                  'assets/icons/google_icon.png',
-                  width: 30,
-                  height: 30,
-                ),
-                onPressed: () {},
-              ),
-              const SizedBox(height: 40),
-
-              // --- Language Toggle ---
-              _buildLanguageToggle(themeColor),
-              const SizedBox(height: 20),
+              SizedBox(height: 35.h),
+              _buildLanguageToggle(),
             ],
           ),
         ),
@@ -138,101 +68,63 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Helper: Text Field Builder
-  Widget _buildTextField({
-    required String hint,
-    required IconData icon,
-    required Color fillColor,
-    bool isPassword = false,
-    bool obscureText = false,
-    VoidCallback? onSuffixTap,
-  }) {
-    return TextField(
-      obscureText: obscureText,
-      style: const TextStyle(color: Colors.white),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: fillColor,
-        hintText: hint,
-        hintStyle: const TextStyle(color: Colors.white54),
-        prefixIcon: Icon(icon, color: Colors.white),
-        suffixIcon: isPassword
-            ? IconButton(
-                icon: Icon(
-                  obscureText ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.white,
-                ),
-                onPressed: onSuffixTap,
-              )
-            : null,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: BorderSide.none,
+  Widget _buildCreateAccountRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Don’t Have Account ? ',
+          style: TextStyle(color: AppColors.white, fontSize: 14.sp),
         ),
-      ),
-    );
-  }
-
-  // Large Button Builder
-  Widget _buildActionButton({
-    required String label,
-    required Color color,
-    required Color textColor,
-    Widget? icon,
-    required VoidCallback onPressed,
-  }) {
-    return SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: color,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          elevation: 0,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (icon != null) ...[icon, const SizedBox(width: 8)],
-            Text(
-              label,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+        GestureDetector(
+          onTap: () {},
+          child: Text(
+            'Create One',
+            style: TextStyle(
+              color: AppColors.yellow,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
-  // Language Toggle UI
-  Widget _buildLanguageToggle(Color themeColor) {
+  Widget _buildDivider() {
+    return Row(
+      children: [
+        Expanded(child: Divider(color: AppColors.yellow)),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: Text(
+            'OR',
+            style: TextStyle(
+              color: AppColors.yellow,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Expanded(child: Divider(color: AppColors.yellow)),
+      ],
+    );
+  }
+
+  Widget _buildLanguageToggle() {
     return Container(
-      padding: const EdgeInsets.all(4),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: themeColor, width: 1.5),
+        color: AppColors.black,
+        borderRadius: BorderRadius.circular(30.r),
+        border: Border.all(color: AppColors.yellow, width: 1.5),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image(
-            image: AssetImage('assets/icons/EN_icon.png'),
-            width: 28,
-            height: 28,
-          ),
-          Image(
-            image: AssetImage('assets/icons/EG_icon.png'),
-            width: 28,
-            height: 28,
-          ),
+          Image.asset(AppAssets.enIcon, width: 26.w),
+          SizedBox(width: 10.w),
+          Image.asset(AppAssets.egIcon, width: 26.w),
         ],
       ),
     );
