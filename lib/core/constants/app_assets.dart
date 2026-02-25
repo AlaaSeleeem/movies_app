@@ -1,9 +1,11 @@
 class AppAssets {
   // ── Images ────────────────────────────────────────────────
-  static const String mainLogo          = 'assets/images/main_logo.png';
-  static const String mainAvatar        = 'assets/images/main_avatar.png';
-  static const String emptySearchResult = 'assets/images/empty_search_result.png';
-  static const String forgotPassword    = 'assets/images/forgot_password.png';
+  static const String mainLogo = 'assets/images/main_logo.png';
+  static const String loginIcon = 'assets/icons/Login_Icon.png';
+  static const String mainAvatar = 'assets/images/main_avatar.png';
+  static const String emptySearchResult =
+      'assets/images/empty_search_result.png';
+  static const String forgotPassword = 'assets/images/forgot_password.png';
 
   // ── Onboarding ────────────────────────────────────────────
   static const String onboarding1 = 'assets/images/onboarding1.png';
@@ -36,16 +38,17 @@ class AppAssets {
   ];
 
   // ── Icons ─────────────────────────────────────────────────
-  static const String egIcon        = 'assets/icons/EG_icon.png';
-  static const String enIcon        = 'assets/icons/EN_icon.png';
-  static const String emailIcon     = 'assets/icons/email_field_icon.png';
-  static const String nameIcon      = 'assets/icons/name_field_icon.png';
-  static const String passwordIcon  = 'assets/icons/password_field_icon.png';
-  static const String phoneIcon     = 'assets/icons/phone_field_icon.png';
-  static const String homeIcon      = 'assets/icons/home_icon.png';
-  static const String searchIcon    = 'assets/icons/search_icon.png';
-  static const String exploreIcon   = 'assets/icons/explore_icon.png';
-  static const String profileIcon   = 'assets/icons/profile_icon.png';
+  static const String egIcon = 'assets/icons/EG_icon.png';
+  static const String enIcon = 'assets/icons/EN_icon.png';
+  static const String emailIcon = 'assets/icons/email_field_icon.png';
+  static const String nameIcon = 'assets/icons/name_field_icon.png';
+  static const String passwordIcon = 'assets/icons/password_field_icon.png';
+  static const String phoneIcon = 'assets/icons/phone_field_icon.png';
+  static const String homeIcon = 'assets/icons/home_icon.png';
+  static const String searchIcon = 'assets/icons/search_icon.png';
+  static const String exploreIcon = 'assets/icons/explore_icon.png';
+  static const String profileIcon = 'assets/icons/profile_icon.png';
   static const String watchlistIcon = 'assets/icons/watchlist_icon.png';
-  static const String historyIcon   = 'assets/icons/history_icon.png';
+  static const String historyIcon = 'assets/icons/history_icon.png';
+  static const String googleIcon = 'assets/icons/google_icon.png';
 }
