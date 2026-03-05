@@ -4,8 +4,7 @@ import '../../domian/entities/register_request.dart';
 
 abstract class AuthEvent {}
 class RegisterEvent extends Equatable {
-  // final RegisterRequest request;
-  // RegisterEvent(this.request);
+
 
   @override
   List<Object?> get props => [];

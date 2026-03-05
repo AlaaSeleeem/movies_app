@@ -1,3 +1,4 @@
+// for api response
 class RegisterResponseModel {
   final String? message;
   final String? token;
