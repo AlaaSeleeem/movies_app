@@ -7,6 +7,12 @@ import '../widgets/auth_button.dart';
 import '../widgets/auth_text_field.dart';
 import 'update_profile_screen.dart';
 import 'register_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/features/auth/data/repos/auth_repo.dart'; // تأكدي من المسار
+import 'package:movies_app/features/auth/presentation/bloc/auth_bloc.dart'; // تأكدي من المسار
+
+
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -42,14 +48,28 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Align(
                 alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const ResetPasswordScreen()),
-                    );
-                  },
+                child: TextButton
+                  (
+                  //الطريقة دي احسن علشان اوصل اسرع بدل ما اوصف المكان كل مرة
+                  // لا تنسي إضافة هذه المكتبات في أعلى الملف إذا لم تكن موجودة
+
+// ... داخل دالة onPressed
+                    onPressed: () {
+              Navigator.push(
+              context,
+              MaterialPageRoute(
+              builder: (context) => BlocProvider(
+
+              create: (context) => AuthBloc(
+
+              authRepo: AuthRepo(),
+              ),
+
+              child: const ResetPasswordScreen(),
+                     ),
+                   ),
+                 );
+              },
                   child: Text(
                     'Forget Password ?',
                     style: TextStyle(color: AppColors.yellow, fontSize: 14.sp),
