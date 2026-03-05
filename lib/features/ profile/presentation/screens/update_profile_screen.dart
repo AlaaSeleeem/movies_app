@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../ cubits/update_profile_cubit.dart';
-import '../ cubits/update_profile_state.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../data/update_profile_repo.dart';
+import '../../data/data_source/profile_remote_data_source.dart';
+import '../../data/repositories_impl/profile_repository_impl.dart';
+import '../../domain/use_cases/delete_account_use_case.dart';
+import '../../domain/use_cases/update_profile_use_case.dart';
+import '../bloc/update_profile_bloc.dart';
+import '../bloc/update_profile_event.dart';
+import '../bloc/update_profile_state.dart';
+
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
 
@@ -29,11 +34,22 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final dataSource = ProfileRemoteDataSourceImpl();
+    final repository = ProfileRepositoryImpl(dataSource);
+
     return BlocProvider(
-      create: (_) => UpdateProfileCubit(UpdateProfileRepo())..loadProfile(),
-      child: BlocConsumer<UpdateProfileCubit, UpdateProfileState>(
+      create: (_) => UpdateProfileBloc(
+        updateProfileUseCase: UpdateProfileUseCase(repository),
+        deleteAccountUseCase: DeleteAccountUseCase(repository),
+        repository: repository,
+      )..add(LoadProfileEvent()),
+      child: BlocConsumer<UpdateProfileBloc, UpdateProfileState>(
         listener: (context, state) {
-          if (state is UpdateProfileSuccess) {
+          if (state is ProfileLoaded) {
+            _nameController.text = state.user.name;
+            _phoneController.text = state.user.phone;
+            setState(() => _selectedAvatar = state.user.avatarIndex);
+          } else if (state is UpdateProfileSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Profile updated successfully!')),
             );
@@ -46,7 +62,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           }
         },
         builder: (context, state) {
-          final cubit = context.read<UpdateProfileCubit>();
+          final bloc = context.read<UpdateProfileBloc>();
           final isUpdating = state is UpdateProfileLoading;
           final isDeleting = state is DeleteAccountLoading;
 
@@ -150,7 +166,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       child: ElevatedButton(
                         onPressed: isDeleting
                             ? null
-                            : () => cubit.deleteAccount(),
+                            : () => bloc.add(DeleteAccountEvent()),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.red,
                           disabledBackgroundColor: AppColors.red,
@@ -180,10 +196,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       child: ElevatedButton(
                         onPressed: isUpdating
                             ? null
-                            : () => cubit.updateProfile(
-                          name: _nameController.text.trim(),
-                          phone: _phoneController.text.trim(),
-                          avatarIndex: _selectedAvatar,
+                            : () => bloc.add(
+                          UpdateProfileSubmitted(
+                            name: _nameController.text.trim(),
+                            phone: _phoneController.text.trim(),
+                            avatarIndex: _selectedAvatar,
+                          ),
                         ),
                         style: ElevatedButton.styleFrom(
                           disabledBackgroundColor: AppColors.yellow,

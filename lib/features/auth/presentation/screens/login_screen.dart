@@ -5,7 +5,7 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/auth_text_field.dart';
-import 'update_profile_screen.dart';
+import '../../../ profile/presentation/screens/update_profile_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
