@@ -6,6 +6,7 @@ class AuthTextField extends StatelessWidget {
   final bool isPassword;
   final bool obscureText;
   final VoidCallback? onSuffixTap;
+  final TextEditingController? controller;
 
   const AuthTextField({
     super.key,
@@ -14,11 +15,13 @@ class AuthTextField extends StatelessWidget {
     this.isPassword = false,
     this.obscureText = false,
     this.onSuffixTap,
+    this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hint,

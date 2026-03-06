@@ -1,7 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import '../data_source/auth_interface_data_source.dart';
 import '../../domian/entities/register_request.dart';
 import '../../domian/repositories/auth_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthInterfaceDataSource _authInterfaceDataSource;
@@ -25,6 +25,29 @@ class AuthRepositoryImpl implements AuthRepository {
       throw FirebaseAuthException(code: e.code, message: e.message);
     } catch (e) {
       throw Exception('Password reset failed: $e');
+    }
+  }
+
+  @override
+  Future<void> login(String email, String password) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      throw FirebaseAuthException(code: e.code, message: e.message);
+    } catch (e) {
+      throw Exception('Login failed: $e');
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      throw Exception('Logout failed: $e');
     }
   }
 }
