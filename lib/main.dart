@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'core/theme/app_theme.dart';
+import 'features/auth/data/auth_repository.dart';
+import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
-import 'features/onboarding/presentation/widgets/onboarding_page.dart';
+// import 'features/auth/presentation/screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+
+  runApp(
+    BlocProvider(
+      create: (_) => AuthBloc(AuthRepository()),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -25,8 +33,12 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Movies App',
-          theme: AppTheme.darkTheme,
-          home: const OnboardingPage(),
+          theme: ThemeData.dark(),
+          initialRoute: '/login',
+          routes: {
+            '/login': (_) => LoginScreen(),
+            // '/home': (_) => const HomeScreen(),
+          },
         );
       },
     );
