@@ -10,11 +10,26 @@ import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
 import '../widgets/category_section.dart';
 import '../widgets/featured_section.dart';
+import '../widgets/custom_bottom_nav_bar.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_assets.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  static const String routeName = '/home';
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +44,10 @@ class HomeScreen extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: AppColors.black,
-          bottomNavigationBar: _buildBottomNav(),
+          bottomNavigationBar: CustomBottomNavBar(
+            selectedIndex: _selectedIndex,
+            onItemTapped: _onItemTapped,
+          ),
           body: BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {
               if (state is HomeLoading) {
@@ -37,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                   child: CircularProgressIndicator(color: AppColors.yellow),
                 );
               }
-        
+
               if (state is HomeError) {
                 return Center(
                   child: Text(
@@ -46,16 +64,15 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               }
-        
+
               if (state is HomeLoaded) {
-                
                 final Map<String, List<MovieEntity>> genreMap = {};
                 for (final movie in state.movies) {
                   for (final genre in movie.genres) {
                     genreMap.putIfAbsent(genre, () => []).add(movie);
                   }
                 }
-        
+
                 return SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                       // ── Featured Section ─────────────────
                       FeaturedSection(movies: state.movies.take(3).toList()),
                       SizedBox(height: 61.h),
-        
+
                       // ── Category Sections ─────────────────
                       ...genreMap.entries.take(5).map(
                             (entry) => Padding(
@@ -81,46 +98,11 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               }
-        
+
               return const SizedBox();
             },
           ),
         ),
-      ),
-    );
-  }
-
-  // ── Bottom Navigation Bar ─────────────────────────────
-  Widget _buildBottomNav() {
-    return Container(
-      width: 413.w,
-      height: 61.h,
-      decoration: BoxDecoration(
-        color: AppColors.black,
-        border: Border(
-          top: BorderSide(color: AppColors.grey, width: 1),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavItem(AppAssets.homeIcon, true),
-          _buildNavItem(AppAssets.searchIcon, false),
-          _buildNavItem(AppAssets.exploreIcon, false),
-          _buildNavItem(AppAssets.profileIcon, false),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem(String icon, bool isSelected) {
-    return GestureDetector(
-      onTap: () {},
-      child: Image.asset(
-        icon,
-        width: 26.w,
-        height: 23.h,
-        color: isSelected ? AppColors.yellow : AppColors.white,
       ),
     );
   }

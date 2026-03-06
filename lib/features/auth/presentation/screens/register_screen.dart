@@ -19,7 +19,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-
   int _selectedAvatarIndex = 1;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -52,10 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           onTap: () {
             Navigator.pop(context);
           },
-          child: const Icon(
-            Icons.arrow_back,
-            color: AppColors.yellow,
-          ),
+          child: const Icon(Icons.arrow_back, color: AppColors.yellow),
         ),
         title: const Text(
           "Register",
@@ -67,7 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            CacheHelper.saveToken(state.token);
+            if (state.token != null) CacheHelper.saveToken(state.token!);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text("Success! Account Created"),
@@ -106,7 +102,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textInputAction: TextInputAction.next,
                         style: const TextStyle(color: AppColors.white),
                         decoration: InputDecoration(
-
                           hintText: "Name",
                           hintStyle: const TextStyle(color: Colors.grey),
                           prefixIcon: Padding(
@@ -288,7 +283,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     phone: _phoneController.text,
                                     avaterId: _selectedAvatarIndex,
                                   );
-                                  context.read<AuthBloc>().add(AuthActionEventRegister(request: data));
+                                  context.read<AuthBloc>().add(
+                                    AuthActionEventRegister(request: data),
+                                  );
                                 }
                               },
                               child: Text(
@@ -300,7 +297,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             );
                           },
-
                         ),
                       ),
 
@@ -346,10 +342,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // Language Switcher
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 4.h,
+                        ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30.r),
-                          border: Border.all(color: AppColors.yellowBorder, width: 2),
+                          border: Border.all(
+                            color: AppColors.yellowBorder,
+                            width: 2,
+                          ),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -357,13 +359,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                    color: AppColors.yellow, width: 2),
+                                  color: AppColors.yellow,
+                                  width: 2,
+                                ),
                                 borderRadius: BorderRadius.circular(50.r),
                               ),
                               child: CircleAvatar(
                                 radius: 16.r,
-                                backgroundImage:
-                                AssetImage(AppAssets.enIcon),
+                                backgroundImage: AssetImage(AppAssets.enIcon),
                               ),
                             ),
                             SizedBox(width: 8.w),
@@ -373,7 +376,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -421,4 +424,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
       ),
     );
-  }}
+  }
+}

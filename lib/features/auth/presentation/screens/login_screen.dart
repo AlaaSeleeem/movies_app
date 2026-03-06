@@ -7,6 +7,10 @@ import '../widgets/auth_button.dart';
 import '../widgets/auth_text_field.dart';
 import '../../../ profile/presentation/screens/update_profile_screen.dart';
 import 'register_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/features/auth/data/repositories_impl/auth_repository_impl.dart';
+import 'package:movies_app/features/auth/data/data_source/auth_firebase_data_source.dart';
+import 'package:movies_app/features/auth/presentation/bloc/auth_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -47,7 +51,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => const ResetPasswordScreen()),
+                        builder: (context) => BlocProvider(
+                          create: (context) => AuthBloc(
+                            AuthRepositoryImpl(AuthFirebaseDataSource()),
+                          ),
+                          child: const ResetPasswordScreen(),
+                        ),
+                      ),
                     );
                   },
                   child: Text(
@@ -88,29 +98,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildCreateAccountRow() {
     return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-    Text(
-    'Dont Have Account ? ',
-    style: TextStyle(color: AppColors.white, fontSize: 14.sp),
-    ),
-    GestureDetector(
-    onTap: () {
-    Navigator.push(
-    context,
-    MaterialPageRoute(builder: (_) => const RegisterScreen()),
-    );
-    },
-    child: Text(
-    'Create One',
-    style: TextStyle(
-    color: AppColors.yellow,
-    fontSize: 14.sp,
-    fontWeight: FontWeight.bold,
-    ),
-    ),
-    ),
-    ],
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Dont Have Account ? ',
+          style: TextStyle(color: AppColors.white, fontSize: 14.sp),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const RegisterScreen()),
+            );
+          },
+          child: Text(
+            'Create One',
+            style: TextStyle(
+              color: AppColors.yellow,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
