@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/theme/app_theme.dart';
-import 'features/auth/presentation/screens/login_screen.dart';
-import 'features/onboarding/presentation/widgets/onboarding_page.dart';
+import 'features/home/presentation/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Movies App',
           theme: AppTheme.darkTheme,
-         home: const OnboardingPage(),
+          home: const HomeScreen(),
         );
       },
     );

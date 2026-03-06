@@ -4,7 +4,8 @@ class AppAssets {
   static const String mainAvatar        = 'assets/images/main_avatar.png';
   static const String emptySearchResult = 'assets/images/empty_search_result.png';
   static const String forgotPassword    = 'assets/images/forgot_password.png';
-
+  static const String availableNow = 'assets/images/available_now.png';
+  static const String watchNow = 'assets/images/watch_now.png';
   // ── Onboarding ────────────────────────────────────────────
   static const String onboarding1 = 'assets/images/onboarding1.png';
   static const String onboarding2 = 'assets/images/onboarding2.jpg';
