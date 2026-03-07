@@ -15,35 +15,31 @@ import 'features/auth/domian/repositories/auth_repository.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/presentation/screens/register_screen.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
+import 'features/auth/presentation/screens/reset_password_screen.dart';
+import 'features/home/presentation/screens/home_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
+
   await CacheHelper.init();
 
-  // ✅ Initialize data source and repository
   final AuthFirebaseDataSource authDataSource = AuthFirebaseDataSource();
   final AuthRepository repository = AuthRepositoryImpl(authDataSource);
 
-  // ✅ Decide start screen based on Firebase Auth current user
-  User? currentUser = FirebaseAuth.instance.currentUser;
-  Widget startWidget;
-  if (currentUser != null) {
-    startWidget = const LoginScreen(); // Or HomeScreen()
-  } else {
-    startWidget = const RegisterScreen();
-  }
-
-  runApp(MyApp(startWidget: startWidget, repository: repository));
+  runApp(MyApp(repository: repository));
 }
 
 class MyApp extends StatelessWidget {
   final AuthRepository repository;
 
-  final Widget startWidget;
-
-  const MyApp({super.key, required this.startWidget, required this.repository});
+  const MyApp({super.key, required this.repository});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +54,12 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Route Movies App',
             theme: AppTheme.darkTheme,
-            home: startWidget,
+            home: const HomeScreen(),
+            routes: {
+              '/login': (context) => const LoginScreen(),
+              '/register': (context) => const RegisterScreen(),
+              '/resetPassword': (context) => const ResetPasswordScreen(),
+            },
           );
         },
       ),

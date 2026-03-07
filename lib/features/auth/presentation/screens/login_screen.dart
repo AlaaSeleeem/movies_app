@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movies_app/features/auth/presentation/screens/reset_password_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/auth_text_field.dart';
-import 'update_profile_screen.dart';
+import '../bloc/auth_bloc.dart';
+import '../bloc/auth_event.dart';
+import '../bloc/auth_state.dart';
 import 'register_screen.dart';
+import 'reset_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,68 +21,104 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
 
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.black,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: Column(
-            children: [
-              SizedBox(height: 60.h),
-              Image.asset(AppAssets.loginIcon, width: 100.w, height: 100.w),
-              SizedBox(height: 40.h),
-              AuthTextField(hint: 'Email', icon: Icons.email_rounded),
-              SizedBox(height: 16.h),
-              AuthTextField(
-                hint: 'Password',
-                icon: Icons.lock_rounded,
-                isPassword: true,
-                obscureText: _obscurePassword,
-                onSuffixTap: () =>
-                    setState(() => _obscurePassword = !_obscurePassword),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const ResetPasswordScreen()),
-                    );
-                  },
-                  child: Text(
-                    'Forget Password ?',
-                    style: TextStyle(color: AppColors.yellow, fontSize: 14.sp),
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthLoading) {
+          showDialog(
+            context: context,
+            builder: (_) => const Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (state is AuthSuccess) {
+          Navigator.popUntil(context, (route) => route.isFirst);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Login Successful!")),
+          );
+        }
+
+        if (state is AuthError) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.black,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            child: Column(
+              children: [
+                SizedBox(height: 60.h),
+                Image.asset(AppAssets.loginIcon, width: 100.w, height: 100.w),
+                SizedBox(height: 40.h),
+
+                AuthTextField(
+                  hint: 'Email',
+                  icon: Icons.email_rounded,
+                  controller: emailController,
+                ),
+                SizedBox(height: 16.h),
+
+                AuthTextField(
+                  hint: 'Password',
+                  icon: Icons.lock_rounded,
+                  isPassword: true,
+                  obscureText: _obscurePassword,
+                  onSuffixTap: () =>
+                      setState(() => _obscurePassword = !_obscurePassword),
+                  controller: passwordController,
+                ),
+
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ResetPasswordScreen(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Forget Password ?',
+                      style: TextStyle(color: AppColors.yellow, fontSize: 14.sp),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 15.h),
-              AuthButton(
-                label: 'Login',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const UpdateProfileScreen()),
-                  );
-                },
-              ),
-              SizedBox(height: 20.h),
-              _buildCreateAccountRow(),
-              SizedBox(height: 25.h),
-              _buildDivider(),
-              SizedBox(height: 25.h),
-              AuthButton(
-                label: 'Login With Google',
-                icon: Image.asset(AppAssets.googleIcon, width: 22.w),
-                onPressed: () {},
-              ),
-              SizedBox(height: 35.h),
-              _buildLanguageToggle(),
-            ],
+                SizedBox(height: 15.h),
+
+                AuthButton(
+                  label: 'Login',
+                  onPressed: () {
+                    context.read<AuthBloc>().add(
+                      LoginEvent(emailController.text, passwordController.text),
+                    );
+                  },
+                ),
+
+                SizedBox(height: 20.h),
+                _buildCreateAccountRow(),
+                SizedBox(height: 25.h),
+                _buildDivider(),
+                SizedBox(height: 25.h),
+                AuthButton(
+                  label: 'Login With Google',
+                  icon: Image.asset(AppAssets.googleIcon, width: 22.w),
+                  onPressed: () {},
+                ),
+                SizedBox(height: 35.h),
+                _buildLanguageToggle(),
+              ],
+            ),
           ),
         ),
       ),
@@ -88,29 +127,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildCreateAccountRow() {
     return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-    Text(
-    'Dont Have Account ? ',
-    style: TextStyle(color: AppColors.white, fontSize: 14.sp),
-    ),
-    GestureDetector(
-    onTap: () {
-    Navigator.push(
-    context,
-    MaterialPageRoute(builder: (_) => const RegisterScreen()),
-    );
-    },
-    child: Text(
-    'Create One',
-    style: TextStyle(
-    color: AppColors.yellow,
-    fontSize: 14.sp,
-    fontWeight: FontWeight.bold,
-    ),
-    ),
-    ),
-    ],
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Dont Have Account ? ',
+          style: TextStyle(color: AppColors.white, fontSize: 14.sp),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const RegisterScreen()),
+            );
+          },
+          child: Text(
+            'Create One',
+            style: TextStyle(
+              color: AppColors.yellow,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
