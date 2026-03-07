@@ -9,6 +9,8 @@ import '../bloc/auth_event.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   const ResetPasswordScreen({super.key});
+  static const String routeName = "/reset_password";
+
 
   @override
   Widget build(BuildContext context) {

@@ -56,19 +56,22 @@ class CustomBottomNavBar extends StatelessWidget {
     );
   }
 
-  // --- دالة مساعدة لبناء الأيقونات وتلوينها ---
   BottomNavigationBarItem _buildNavItem({
     required String assetPath,
     required String label,
     required int index,
   }) {
     return BottomNavigationBarItem(
-      icon: Image.asset(
-        assetPath,
-        width: 28, // يمكنك تعديل الحجم ليتناسب مع التصميم
-        height: 28,
-        // تلوين الأيقونة باللون الرمادي إذا لم تكن نشطة
-        color: selectedIndex == index ? AppColors.yellow : Colors.grey.shade700,
+      icon: GestureDetector(
+        onTap: () {
+          onItemTapped(index);
+        },
+        child: Image.asset(
+          assetPath,
+          width: 28,
+          height: 28,
+          color: selectedIndex == index ? AppColors.yellow : Colors.grey.shade700,
+        ),
       ),
       label: label,
     );

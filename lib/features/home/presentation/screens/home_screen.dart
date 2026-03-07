@@ -24,6 +24,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  static const String routeName = "/home";
+
 
   void _onItemTapped(int index) {
     setState(() {

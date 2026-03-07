@@ -156,6 +156,8 @@ class OnboardingBottomCard extends StatelessWidget {
 /// Screen 1 (Different Layout)
 /// =======================
 class OnboardingIntroScreen extends StatelessWidget {
+  static const String routeName = "/onboarding";
+
   final VoidCallback onNext;
 
   const OnboardingIntroScreen({super.key, required this.onNext});

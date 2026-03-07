@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Core Imports
 import 'core/cache/cache_helper.dart';
+import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 
 // Feature Auth Imports
@@ -17,6 +18,7 @@ import 'features/auth/presentation/screens/register_screen.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
 import 'features/auth/presentation/screens/reset_password_screen.dart';
 import 'features/home/presentation/screens/home_screen.dart';
+import 'features/splash/presentation/screens/splash_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -54,12 +56,8 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Route Movies App',
             theme: AppTheme.darkTheme,
-            home: const HomeScreen(),
-            routes: {
-              '/login': (context) => const LoginScreen(),
-              '/register': (context) => const RegisterScreen(),
-              '/resetPassword': (context) => const ResetPasswordScreen(),
-            },
+            initialRoute: SplashScreen.routeName,
+            onGenerateRoute: AppRouter.generateRoute,
           );
         },
       ),
