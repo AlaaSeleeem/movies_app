@@ -12,7 +12,7 @@ import '../widgets/category_section.dart';
 import '../widgets/featured_section.dart';
 import '../widgets/custom_bottom_nav_bar.dart';
 import '../../../../../core/constants/app_colors.dart';
-import '../../../../../core/constants/app_assets.dart';
+import 'package:movies_app/features/%20profile/presentation/screens/update_profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,8 +24,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  static const String routeName = "/home";
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -35,76 +33,101 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => HomeBloc(
-        GetMoviesUseCase(
-          HomeRepositoryImpl(
-            HomeRemoteDataSourceImpl(),
-          ),
-        ),
-      )..add(GetMoviesEvent()),
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: AppColors.black,
-          bottomNavigationBar: CustomBottomNavBar(
-            selectedIndex: _selectedIndex,
-            onItemTapped: _onItemTapped,
-          ),
-          body: BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              if (state is HomeLoading) {
-                return Center(
-                  child: CircularProgressIndicator(color: AppColors.yellow),
-                );
-              }
-
-              if (state is HomeError) {
-                return Center(
-                  child: Text(
-                    state.message,
-                    style: TextStyle(color: AppColors.white),
+    return Scaffold(
+      extendBody: true,
+      backgroundColor: AppColors.black,
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: [
+          // ── Home ──────────────────────────────────
+          SafeArea(
+            child: BlocProvider(
+              create: (_) => HomeBloc(
+                GetMoviesUseCase(
+                  HomeRepositoryImpl(
+                    HomeRemoteDataSourceImpl(),
                   ),
-                );
-              }
-
-              if (state is HomeLoaded) {
-                final Map<String, List<MovieEntity>> genreMap = {};
-                for (final movie in state.movies) {
-                  for (final genre in movie.genres) {
-                    genreMap.putIfAbsent(genre, () => []).add(movie);
+                ),
+              )..add(GetMoviesEvent()),
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state is HomeLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(color: AppColors.yellow),
+                    );
                   }
-                }
-
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // ── Featured Section ─────────────────
-                      FeaturedSection(movies: state.movies.take(3).toList()),
-                      SizedBox(height: 61.h),
-
-                      // ── Category Sections ─────────────────
-                      ...genreMap.entries.take(5).map(
-                            (entry) => Padding(
-                          padding: EdgeInsets.only(bottom: 24.h),
-                          child: CategorySection(
-                            genre: entry.key,
-                            movies: List<MovieEntity>.from(entry.value)
-                                .take(3)
-                                .toList(),
-                          ),
-                        ),
+                  if (state is HomeError) {
+                    return Center(
+                      child: Text(
+                        state.message,
+                        style: TextStyle(color: AppColors.white),
                       ),
-                      SizedBox(height: 24.h),
-                    ],
-                  ),
-                );
-              }
-
-              return const SizedBox();
-            },
+                    );
+                  }
+                  if (state is HomeLoaded) {
+                    final Map<String, List<MovieEntity>> genreMap = {};
+                    for (final movie in state.movies) {
+                      for (final genre in movie.genres) {
+                        genreMap.putIfAbsent(genre, () => []).add(movie);
+                      }
+                    }
+                    return SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FeaturedSection(movies: state.movies.take(3).toList()),
+                          SizedBox(height: 61.h),
+                          ...genreMap.entries.take(5).map(
+                                (entry) => Padding(
+                              padding: EdgeInsets.only(bottom: 24.h),
+                              child: CategorySection(
+                                genre: entry.key,
+                                movies: List<MovieEntity>.from(entry.value)
+                                    .take(3)
+                                    .toList(),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 100.h),
+                        ],
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+            ),
           ),
-        ),
+
+          // ── Search ────────────────────────────────
+          const Scaffold(
+            backgroundColor: AppColors.black,
+            body: Center(
+              child: Text(
+                'Search',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+          ),
+
+          // ── Explore ───────────────────────────────
+          const Scaffold(
+            backgroundColor: AppColors.black,
+            body: Center(
+              child: Text(
+                'Explore',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+          ),
+
+          // ── Profile ───────────────────────────────
+          const UpdateProfileScreen(),
+        ],
       ),
     );
   }

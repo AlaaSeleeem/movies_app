@@ -4,20 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// Core Imports
 import 'core/cache/cache_helper.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
-
-// Feature Auth Imports
 import 'features/auth/data/data_source/auth_firebase_data_source.dart';
 import 'features/auth/data/repositories_impl/auth_repository_impl.dart';
 import 'features/auth/domian/repositories/auth_repository.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
-import 'features/auth/presentation/screens/register_screen.dart';
-import 'features/auth/presentation/screens/login_screen.dart';
-import 'features/auth/presentation/screens/reset_password_screen.dart';
-import 'features/home/presentation/screens/home_screen.dart';
 import 'features/splash/presentation/screens/splash_screen.dart';
 import 'firebase_options.dart';
 

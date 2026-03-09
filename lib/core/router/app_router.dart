@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:movies_app/features/%20profile/presentation/screens/update_profile_screen.dart';
 
@@ -29,6 +28,7 @@ class AppRouter {
             },
           ),
         );
+
       case RegisterScreen.routeName:
         return MaterialPageRoute(
           builder: (_) => const RegisterScreen(),
@@ -43,11 +43,11 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const ResetPasswordScreen(),
         );
-        case UpdateProfileScreen.routeName:
+
+      case UpdateProfileScreen.routeName:
         return MaterialPageRoute(
           builder: (_) => const UpdateProfileScreen(),
         );
-
 
       case HomeScreen.routeName:
         return MaterialPageRoute(
@@ -57,8 +57,12 @@ class AppRouter {
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
+            backgroundColor: Color(0xFF121312),
             body: Center(
-              child: Text("No route found"),
+              child: Text(
+                "No route found",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
         );

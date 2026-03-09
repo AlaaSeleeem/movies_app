@@ -57,7 +57,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     TextFormField(
                       controller: emailController,
                       validator: (value) {
-                        if (value == null || value.isEmpty || !value.contains('@')) {
+                        if  (value == null || value.isEmpty || !value.contains('@')) {
                           return 'Please enter a valid email';
                         }
                         return null;
