@@ -13,6 +13,7 @@ import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+  static const String routeName = "/register";
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -25,10 +26,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+
   //UI State
   bool _isPasswordVisible = false;
   bool _isConfirmVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
 
   @override
   void dispose() {
@@ -118,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return "Name is required";
                           }
                           return null;
-                        },
+                        }
                       ),
                       // Email field
                       TextFormField(

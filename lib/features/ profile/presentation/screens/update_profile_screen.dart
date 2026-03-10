@@ -12,6 +12,8 @@ import '../bloc/update_profile_event.dart';
 import '../bloc/update_profile_state.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
+  static const String routeName = "/update_profile";
+
   const UpdateProfileScreen({super.key});
 
   @override
@@ -24,6 +26,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
+
 
   @override
   void dispose() {

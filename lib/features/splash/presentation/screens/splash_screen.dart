@@ -58,6 +58,8 @@ import 'package:movies_app/features/onboarding/presentation/widgets/onboarding_p
 
 // الكلاس الأول: لم يتغير كثيرًا، مجرد إعدادات
 class SplashScreen extends StatefulWidget {
+  static const String routeName = "/";
+
   const SplashScreen({super.key});
 
   @override

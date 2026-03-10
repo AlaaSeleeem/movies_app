@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_assets.dart';
+import '../../../home/presentation/screens/home_screen.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/auth_text_field.dart';
 import '../bloc/auth_bloc.dart';
@@ -12,6 +13,7 @@ import 'register_screen.dart';
 import 'reset_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const String routeName = "/login";
   const LoginScreen({super.key});
 
   @override
@@ -36,7 +38,11 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         if (state is AuthSuccess) {
-          Navigator.popUntil(context, (route) => route.isFirst);
+          Navigator.pushReplacementNamed(
+            context,
+            HomeScreen.routeName,
+          );
+
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Login Successful!")),
           );
