@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movies_app/features/movies/presentation/screens/movie_detail_screen.dart';
 import '../../domain/entities/movie_entity.dart';
 import 'movie_card.dart';
 import '../../../../../core/constants/app_assets.dart';
@@ -122,8 +123,9 @@ class _FeaturedSectionState extends State<FeaturedSection> {
 
                       return GestureDetector(
                         onTap: () {
+                          Navigator.pushNamed(context,MovieDetailsScreen. routeName);
                           _pageController.animateToPage(
-                            index,
+                           index,
                             duration: const Duration(milliseconds: 400),
                             curve: Curves.easeInOut,
                           );

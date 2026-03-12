@@ -5,13 +5,13 @@ import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/auth/presentation/screens/reset_password_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/movies/presentation/screens/movie_detail_screen.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-
       case SplashScreen.routeName:
         return MaterialPageRoute(
           builder: (_) => const SplashScreen(),
@@ -19,14 +19,15 @@ class AppRouter {
 
       case OnboardingIntroScreen.routeName:
         return MaterialPageRoute(
-          builder: (context) => OnboardingIntroScreen(
-            onNext: () {
-              Navigator.pushNamed(
-                context,
-                "/onboarding",
-              );
-            },
-          ),
+          builder: (context) =>
+              OnboardingIntroScreen(
+                onNext: () {
+                  Navigator.pushNamed(
+                    context,
+                    "/onboarding",
+                  );
+                },
+              ),
         );
 
       case RegisterScreen.routeName:
@@ -53,10 +54,17 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const HomeScreen(),
         );
+      case MovieDetailsScreen.routeName:
+        final movieId = settings.arguments as int;
+        return MaterialPageRoute(
+          //builder: (context) => MovieDetailsScreen(id:movieId),
+          builder: (context) => const MovieDetailsScreen(),
+        );
 
       default:
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(
+          builder: (_) =>
+          const Scaffold(
             backgroundColor: Color(0xFF121312),
             body: Center(
               child: Text(
@@ -66,6 +74,10 @@ class AppRouter {
             ),
           ),
         );
+
+    //builder: (context) => const SplashScreen(),
+
+    //);
     }
   }
 }

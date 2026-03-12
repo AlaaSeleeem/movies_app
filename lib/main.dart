@@ -3,7 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movies_app/features/movies/presentation/screens/movie_detail_screen.dart';
 
+import'package:movies_app/lib/features/movies/presentation/screens/movie_detail_screen.dart';
 import 'core/cache/cache_helper.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
@@ -49,6 +51,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Route Movies App',
             theme: AppTheme.darkTheme,
+            home:const MovieDetailsScreen(),//....علشان اجرب  ارن ال movie screen لوحدها
             initialRoute: SplashScreen.routeName,
             onGenerateRoute: AppRouter.generateRoute,
           );
