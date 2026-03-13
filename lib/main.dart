@@ -3,9 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movies_app/features/movies/presentation/screens/movie_detail_screen.dart';
-
-import'package:movies_app/lib/features/movies/presentation/screens/movie_detail_screen.dart';
 import 'core/cache/cache_helper.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
@@ -15,6 +12,7 @@ import 'features/auth/domian/repositories/auth_repository.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/splash/presentation/screens/splash_screen.dart';
 import 'firebase_options.dart';
+import 'features/movies/presentation/screens/movie_detail_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

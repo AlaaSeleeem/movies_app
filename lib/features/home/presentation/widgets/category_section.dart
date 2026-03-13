@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../domain/entities/movie_entity.dart';
 import '../../../../../core/constants/app_colors.dart';
 import 'movie_card.dart';
+import 'package:movies_app/features/movies/presentation/screens/movie_detail_screen.dart';
 
 class CategorySection extends StatelessWidget {
   final String genre;
@@ -68,10 +69,17 @@ class CategorySection extends StatelessWidget {
             itemBuilder: (context, index) {
               return Padding(
                 padding: EdgeInsets.only(right: 12.w),
-                child: MovieCard(
-                  movie: movies[index],
-                  width: 146.w,
-                  height: 220.h,
+                child: GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    MovieDetailsScreen.routeName,
+                    arguments: movies[index].id,
+                  ),
+                  child: MovieCard(
+                    movie: movies[index],
+                    width: 146.w,
+                    height: 220.h,
+                  ),
                 ),
               );
             },
