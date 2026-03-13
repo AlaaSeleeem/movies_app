@@ -14,6 +14,8 @@ class MovieDetailsScreen extends StatelessWidget {
   const MovieDetailsScreen({super.key, required this.movieId});
   static const String routeName = '/movie-details';
 
+  //get screenWidth => null;
+
   @override
   Widget build(BuildContext context) {
     final movieRepository = MovieRepositoryImpl(remoteDataSource: MovieDetailsRemoteDataSource());
@@ -53,11 +55,22 @@ class MovieDetailsScreen extends StatelessWidget {
                       background: Stack(
                         fit: StackFit.expand,
                         children: [
+
+
+
                           Image.network(
                             movie.bannerImage,
                             fit: BoxFit.cover,
                             alignment: Alignment.topCenter,
                           ),
+                          Center(
+                            child: Image.asset(
+                              "assets/images/img.png",
+                              width: 70,
+                              height: 70,
+                            ),
+                          ),
+
                           Container(
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -68,6 +81,18 @@ class MovieDetailsScreen extends StatelessWidget {
                               ),
                             ),
                           ),
+
+                          /*Positioned(
+                            left:(screenWidth/2)-37.5,
+                            top:(screenHeight*0.4)*0.45,
+                            child: Image.asset(
+                              'assets/images/img.png',
+                              width: 75,
+                              height: 75,
+                            ),
+                          ),*/
+                        
+                          
                         ],
                       ),
                     ),
