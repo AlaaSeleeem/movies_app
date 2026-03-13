@@ -58,7 +58,7 @@ class AppRouter {
         final movieId = settings.arguments as int;
         return MaterialPageRoute(
           //builder: (context) => MovieDetailsScreen(id:movieId),
-          builder: (context) => const MovieDetailsScreen(),
+          builder: (context) =>  MovieDetailsScreen(movieId: movieId,),
         );
 
       default:

@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Route Movies App',
             theme: AppTheme.darkTheme,
-            home:const MovieDetailsScreen(),//....علشان اجرب  ارن ال movie screen لوحدها
+
             initialRoute: SplashScreen.routeName,
             onGenerateRoute: AppRouter.generateRoute,
           );

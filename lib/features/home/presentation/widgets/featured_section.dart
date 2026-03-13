@@ -123,13 +123,26 @@ class _FeaturedSectionState extends State<FeaturedSection> {
 
                       return GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context,MovieDetailsScreen. routeName);
+                          Navigator.pushNamed(
+                            context,
+                            MovieDetailsScreen.routeName,
+                            arguments: widget.movies[index].id,
+                          );
+
+                          _pageController.animateToPage(
+                            index,
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        /*onTap: () {
+                          Navigator.pushNamed(context,MovieDetailsScreen. routeName, arguments: movie.id);
                           _pageController.animateToPage(
                            index,
                             duration: const Duration(milliseconds: 400),
                             curve: Curves.easeInOut,
                           );
-                        },
+                        },*/
                         child: Transform.scale(
                           scale: scale,
                           child: Opacity(
