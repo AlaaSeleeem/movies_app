@@ -12,7 +12,7 @@ class MovieDetailsRemoteDataSource {
   // ── Get Movie Details ─────────────────────────────────────
   Future<MovieDetailModel> getMovieDetails(int movieId) async {
     final url = Uri.parse(
-      'https://yts.lt/api/v2/movie_details.json?movie_id=$movieId&with_cast=true&with_images=true',
+      'https://movies-api.accel.li/api/v2/movie_details.json?movie_id=$movieId&with_cast=true&with_images=true',
     );
 
     final response = await client.get(url);
@@ -28,7 +28,7 @@ class MovieDetailsRemoteDataSource {
   // ── Get Movie Suggestions ─────────────────────────────────
   Future<List<MovieSuggestionModel>> getMovieSuggestions(int movieId) async {
     final url = Uri.parse(
-      'https://yts.lt/api/v2/movie_suggestions.json?movie_id=$movieId',
+      'https://movies-api.accel.li/api/v2/movie_suggestions.json?movie_id=$movieId',
     );
 
     final response = await client.get(url);
