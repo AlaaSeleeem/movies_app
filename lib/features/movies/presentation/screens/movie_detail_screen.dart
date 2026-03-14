@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/features/movies/presentation/widgets/movieDetailsAppBar.dart';
+import 'package:movies_app/features/movies/presentation/widgets/suggestedMovieWidget.dart';
 import '../../domain/entities/cast.dart';
 import '../../domain/entities/movie_details.dart';
 import '../../domain/repositories/movie_repository.dart';
 import '../../domain/use_cases/GetMovieDetails.dart';
+import '../../domain/use_cases/GetSuggestedMovies.dart';
 import '../bloc/movie_detail_bloc.dart';
 import '../bloc/movie_detail_event.dart';
 import '../bloc/movie_detail_state.dart';
@@ -35,7 +37,7 @@ class MovieDetailsScreen extends StatelessWidget {
     final getMovieDetails = GetMovieDetails(movieRepository);
     return BlocProvider(
       create: (_) => MovieDetailBloc(
-        getMovieDetails: GetMovieDetails(repository),
+        getMovieDetails: GetMovieDetails(repository), getSuggestedMovies: GetSuggestedMovies(repository),
       )..add(LoadMovieDetail(movieId)),
       child: Scaffold(
         backgroundColor: AppColors.black,
@@ -78,8 +80,14 @@ class MovieDetailsScreen extends StatelessWidget {
                           const SizedBox(height: 24),
                           MovieWatchButton(),
                           const SizedBox(height: 24),
-                          _buildStatItem(icon: Icons.star, value: movie.rating.toString()),
-                          const SizedBox(height: 32),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _buildStatItem(icon: Icons.favorite, value: movie.likeCount.toString()),
+                              _buildStatItem(icon: Icons.access_time_filled_sharp, value: '${movie.runtime} min'),
+                              _buildStatItem(icon: Icons.star, value: movie.rating.toString()),
+                            ]
+                          ),
                           movieSectionTitle(title:'Summary'),
                           const SizedBox(height: 12),
                           Text(
@@ -93,6 +101,9 @@ class MovieDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   MovieScreenShotsList(screenshots: movie.screenshots),
+                  SliverToBoxAdapter(
+                    child: SuggestedMoviesWidget(movies: state.suggestedMovies),
+                  ),
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),

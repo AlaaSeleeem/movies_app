@@ -6,6 +6,7 @@ class GetMovieDetails {
 
   GetMovieDetails(this.repository);
 
+
   Future<MovieDetails> call(int movieId) {
     return repository.getMovieDetails(movieId);
   }
