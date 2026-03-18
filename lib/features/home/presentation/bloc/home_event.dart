@@ -8,3 +8,10 @@ abstract class HomeEvent extends Equatable {
 }
 
 class GetMoviesEvent extends HomeEvent {}
+class FilterMoviesEvent extends HomeEvent {
+  final String genre;
+  FilterMoviesEvent(this.genre);
+
+  @override
+  List<Object> get props => [genre];
+}
