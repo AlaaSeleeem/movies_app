@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../browse/presentation/screens/browse_screen.dart';
 import '../../data/data_source/home_remote_data_source.dart';
 import '../../data/repositories_impl/home_repository_impl.dart';
 import '../../domain/entities/movie_entity.dart';
@@ -114,16 +115,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          // ── Explore ───────────────────────────────
-          const Scaffold(
-            backgroundColor: AppColors.black,
-            body: Center(
-              child: Text(
-                'Explore',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
-            ),
-          ),
+          // ── Browse ───────────────────────────────
+          const BrowseScreen(),
 
           // ── Profile ───────────────────────────────
           const UpdateProfileScreen(),

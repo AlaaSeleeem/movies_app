@@ -4,6 +4,7 @@ import 'package:movies_app/features/%20profile/presentation/screens/update_profi
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/auth/presentation/screens/reset_password_screen.dart';
+import '../../features/browse/presentation/screens/browse_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/movies/presentation/screens/movie_detail_screen.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
@@ -60,6 +61,8 @@ class AppRouter {
           //builder: (context) => MovieDetailsScreen(id:movieId),
           builder: (context) =>  MovieDetailsScreen(movieId: movieId,),
         );
+      case '/browse':
+        return MaterialPageRoute(builder: (_) => const BrowseScreen());
 
       default:
         return MaterialPageRoute(
