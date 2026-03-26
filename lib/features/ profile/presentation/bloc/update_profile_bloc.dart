@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/features/%20profile/presentation/bloc/profile_event.dart';
 import '../../domain/ repositories/profile_repository.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/use_cases/delete_account_use_case.dart';

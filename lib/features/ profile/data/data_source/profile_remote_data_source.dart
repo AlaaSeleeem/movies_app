@@ -25,11 +25,11 @@ class ProfileRemoteDataSource {
     await _firestore
         .collection('users')
         .doc(_uid)
-        .update({
+        .set({
       'name': user.name,
       'phone': user.phone,
       'avatarIndex': user.avatarIndex,
-    });
+    }, SetOptions(merge: true));
   }
 
   Future<void> deleteAccount() async {

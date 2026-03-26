@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../home/presentation/bloc/home_bloc.dart';
 import '../../../home/presentation/bloc/home_event.dart';
 import '../../../home/presentation/bloc/home_state.dart';
+import 'package:movies_app/features/movies/presentation/screens/movie_detail_screen.dart';
+import '../../../home/presentation/widgets/movie_card.dart';
 import '../widgets/genre_card.dart';
-import '../widgets/movie_card.dart';
 
 class BrowseScreen extends StatefulWidget {
   const BrowseScreen({super.key});
@@ -32,7 +33,6 @@ class _BrowseScreenState extends State<BrowseScreen> {
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 itemCount: genres.length,
-
                 itemBuilder: (context, index) {
                   return GenreCard(
                     title: genres[index],
@@ -41,12 +41,10 @@ class _BrowseScreenState extends State<BrowseScreen> {
                       setState(() {
                         selectedGenreIndex = index;
                       });
-
                       context.read<HomeBloc>().add(FilterMoviesEvent(genres[index]));
                     },
                   );
                 },
-
               ),
             ),
             SizedBox(height: 25.h),
@@ -54,7 +52,8 @@ class _BrowseScreenState extends State<BrowseScreen> {
               child: BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
                   if (state is HomeLoading) {
-                    return const Center(child: CircularProgressIndicator(color: Color(0xFFF6BD00)));
+                    return const Center(
+                        child: CircularProgressIndicator(color: Color(0xFFF6BD00)));
                   } else if (state is HomeLoaded) {
                     return GridView.builder(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -66,11 +65,24 @@ class _BrowseScreenState extends State<BrowseScreen> {
                       ),
                       itemCount: state.movies.length,
                       itemBuilder: (context, index) {
-                        return MovieCard(movie: state.movies[index]);
+                        return GestureDetector(
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            MovieDetailsScreen.routeName,
+                            arguments: state.movies[index].id,
+                          ),
+                          child: MovieCard(
+                            movie: state.movies[index],
+                            width: 189.w,
+                            height: 279.h,
+                          ),
+                        );
                       },
                     );
                   } else if (state is HomeError) {
-                    return Center(child: Text(state.message, style: const TextStyle(color: Colors.red)));
+                    return Center(
+                        child: Text(state.message,
+                            style: const TextStyle(color: Colors.red)));
                   }
                   return const SizedBox();
                 },
@@ -80,23 +92,6 @@ class _BrowseScreenState extends State<BrowseScreen> {
         ),
       ),
 
-      bottomNavigationBar: Container(
-        height: 80.h,
-        margin: EdgeInsets.all(10.r),
-        decoration: BoxDecoration(
-          color: const Color(0xFF282A28),
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const Icon(Icons.home, color: Colors.white),
-            const Icon(Icons.search, color: Colors.white),
-            const Icon(Icons.explore, color: Color(0xFFF6BD00)),
-            const Icon(Icons.person, color: Colors.white),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -17,26 +17,11 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  String _userName = 'John Safwat';
-  int _avatarIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _loadUserData();
-  }
-
-  Future<void> _loadUserData() async {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-    if (uid == null) return;
-    final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    if (doc.exists) {
-      setState(() {
-        _userName = doc.data()?['name'] ?? 'John Safwat';
-        _avatarIndex = doc.data()?['avatarIndex'] ?? 0;
-      });
-    }
   }
 
   Future<void> _logout(BuildContext context) async {
@@ -59,209 +44,225 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       backgroundColor: AppColors.black,
       body: SafeArea(
-        child: Column(
-          children: [
-            // ── Header ───────────────────────────────────────
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // ── Avatar ─────────────────────────────────
-                  ClipOval(
-                    child: Image.asset(
-                      AppAssets.avatars[_avatarIndex],
-                      width: 118.w,
-                      height: 118.w,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  SizedBox(width: 16.w),
+        child: StreamBuilder<DocumentSnapshot>(
+          stream: uid != null
+              ? FirebaseFirestore.instance
+              .collection('users')
+              .doc(uid)
+              .snapshots()
+              : null,
+          builder: (context, userSnapshot) {
+            final userData = userSnapshot.data?.data() as Map<String, dynamic>?;
+            final userName = userData?['name'] ?? 'John Safwat';
+            final avatarIndex = userData?['avatarIndex'] ?? 0;
 
-                  // ── Stats ───────────────────────────────────
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            return Column(
+              children: [
+                // ── Header ─────────────────────────────────────
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // ── Avatar ───────────────────────────────
+                      ClipOval(
+                        child: Image.asset(
+                          AppAssets.avatars[avatarIndex],
+                          width: 118.w,
+                          height: 118.w,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(width: 16.w),
+
+                      // ── Stats ─────────────────────────────────
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Wish List Count
-                            StreamBuilder<QuerySnapshot>(
-                              stream: uid != null
-                                  ? FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(uid)
-                                  .collection('watchlist')
-                                  .snapshots()
-                                  : null,
-                              builder: (context, snapshot) {
-                                final count = snapshot.data?.docs.length ?? 0;
-                                return _buildStat(count.toString(), 'Wish List');
-                              },
+                            SizedBox(height: 10.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                // Wish List Count
+                                StreamBuilder<QuerySnapshot>(
+                                  stream: uid != null
+                                      ? FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(uid)
+                                      .collection('watchlist')
+                                      .snapshots()
+                                      : null,
+                                  builder: (context, snapshot) {
+                                    final count =
+                                        snapshot.data?.docs.length ?? 0;
+                                    return _buildStat(
+                                        count.toString(), 'Wish List');
+                                  },
+                                ),
+                                // History Count
+                                StreamBuilder<QuerySnapshot>(
+                                  stream: uid != null
+                                      ? FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(uid)
+                                      .collection('history')
+                                      .snapshots()
+                                      : null,
+                                  builder: (context, snapshot) {
+                                    final count =
+                                        snapshot.data?.docs.length ?? 0;
+                                    return _buildStat(
+                                        count.toString(), 'History');
+                                  },
+                                ),
+                              ],
                             ),
-                            // History Count
-                            StreamBuilder<QuerySnapshot>(
-                              stream: uid != null
-                                  ? FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(uid)
-                                  .collection('history')
-                                  .snapshots()
-                                  : null,
-                              builder: (context, snapshot) {
-                                final count = snapshot.data?.docs.length ?? 0;
-                                return _buildStat(count.toString(), 'History');
-                              },
+                            SizedBox(height: 16.h),
+                            Text(
+                              userName,
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontFamily: 'Roboto',
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 16.h),
-                        Text(
-                          _userName,
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontFamily: 'Roboto',
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 16.h),
-
-            // ── Buttons ──────────────────────────────────────
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Row(
-                children: [
-                  // Edit Profile
-                  Expanded(
-                    child: SizedBox(
-                      height: 56.h,
-                      child: ElevatedButton(
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          UpdateProfileScreen.routeName,
-                        ).then((_) => _loadUserData()),
-                        child: Text(
-                          'Edit Profile',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  SizedBox(width: 10.w),
+                ),
+                SizedBox(height: 16.h),
 
-                  // Exit
-                  SizedBox(
-                    width: 135.w,
-                    height: 56.h,
-                    child: ElevatedButton(
-                      onPressed: () => _logout(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.r),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Exit',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.w400,
+                // ── Buttons ────────────────────────────────────
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Row(
+                    children: [
+                      // Edit Profile
+                      Expanded(
+                        child: SizedBox(
+                          height: 56.h,
+                          child: ElevatedButton(
+                            onPressed: () => Navigator.pushNamed(
+                              context,
+                              UpdateProfileScreen.routeName,
+                            ),
+                            child: Text(
+                              'Edit Profile',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
-                          SizedBox(width: 8.w),
-                          Icon(Icons.logout,
-                              color: AppColors.white, size: 18.sp),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 16.h),
+                      SizedBox(width: 10.w),
 
-            // ── Tabs ─────────────────────────────────────────
-            TabBar(
-              controller: _tabController,
-              indicatorColor: AppColors.yellow,
-              labelColor: AppColors.yellow,
-              unselectedLabelColor: AppColors.white,
-              tabs: [
-                Tab(
-                  icon: Icon(Icons.list_alt, size: 24.sp),
-                  text: 'Watch List',
+                      // Exit
+                      SizedBox(
+                        width: 135.w,
+                        height: 56.h,
+                        child: ElevatedButton(
+                          onPressed: () => _logout(context),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.r),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Exit',
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              SizedBox(width: 8.w),
+                              Icon(Icons.logout,
+                                  color: AppColors.white, size: 18.sp),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Tab(
-                  icon: Icon(Icons.folder, size: 24.sp),
-                  text: 'History',
+                SizedBox(height: 16.h),
+
+                // ── Tabs ───────────────────────────────────────
+                TabBar(
+                  controller: _tabController,
+                  indicatorColor: AppColors.yellow,
+                  labelColor: AppColors.yellow,
+                  unselectedLabelColor: AppColors.white,
+                  tabs: [
+                    Tab(
+                      icon: Icon(Icons.list_alt, size: 24.sp),
+                      text: 'Watch List',
+                    ),
+                    Tab(
+                      icon: Icon(Icons.folder, size: 24.sp),
+                      text: 'History',
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8.h),
+
+                // ── Tab Content ────────────────────────────────
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      // ── Watch List ─────────────────────────
+                      uid == null
+                          ? _buildEmpty()
+                          : StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(uid)
+                            .collection('watchlist')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData ||
+                              snapshot.data!.docs.isEmpty) {
+                            return _buildEmpty();
+                          }
+                          return _buildMovieGrid(snapshot.data!.docs);
+                        },
+                      ),
+
+                      // ── History ────────────────────────────
+                      uid == null
+                          ? _buildEmpty()
+                          : StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(uid)
+                            .collection('history')
+                            .orderBy('timestamp', descending: true)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData ||
+                              snapshot.data!.docs.isEmpty) {
+                            return _buildEmpty();
+                          }
+                          return _buildMovieGrid(snapshot.data!.docs);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
-            ),
-            SizedBox(height: 8.h),
-
-            // ── Tab Content ──────────────────────────────────
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  // ── Watch List ───────────────────────────
-                  uid == null
-                      ? _buildEmpty()
-                      : StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(uid)
-                        .collection('watchlist')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData ||
-                          snapshot.data!.docs.isEmpty) {
-                        return _buildEmpty();
-                      }
-                      final docs = snapshot.data!.docs;
-                      return _buildMovieGrid(docs);
-                    },
-                  ),
-
-                  // ── History ──────────────────────────────
-                  uid == null
-                      ? _buildEmpty()
-                      : StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(uid)
-                        .collection('history')
-                        .orderBy('timestamp', descending: true)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData ||
-                          snapshot.data!.docs.isEmpty) {
-                        return _buildEmpty();
-                      }
-                      final docs = snapshot.data!.docs;
-                      return _buildMovieGrid(docs);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
