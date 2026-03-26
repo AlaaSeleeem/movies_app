@@ -1,31 +1,69 @@
 import '../../domain/ repositories/profile_repository.dart';
-import '../../domain/entities/user_entity.dart';
 import '../data_source/profile_remote_data_source.dart';
-import '../models/user_model.dart';
+import '../../domain/entities/user_entity.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
-  final ProfileRemoteDataSource _dataSource;
+  final ProfileRemoteDataSource remoteDataSource;
 
-  ProfileRepositoryImpl(this._dataSource);
+  ProfileRepositoryImpl({required this.remoteDataSource});
+
+  @override
+  Future<UserEntity> getProfile() async {
+    return await remoteDataSource.getProfile();
+  }
 
   @override
   Future<void> updateProfile(UserEntity user) async {
-    await _dataSource.updateProfile(
-      UserModel(
-        name: user.name,
-        phone: user.phone,
-        avatarIndex: user.avatarIndex,
-      ),
-    );
+    await remoteDataSource.updateProfile(user);
   }
 
   @override
   Future<void> deleteAccount() async {
-    await _dataSource.deleteAccount();
+    await remoteDataSource.deleteAccount();
   }
 
   @override
-  Future<UserEntity?> getProfile() async {
-    return await _dataSource.getProfile();
+  Future<void> addToWatchlist({
+    required int movieId,
+    required String title,
+    required String image,
+    required double rating,
+  }) async {
+    await remoteDataSource.addToWatchlist(
+      movieId: movieId,
+      title: title,
+      image: image,
+      rating: rating,
+    );
+  }
+
+  @override
+  Future<void> removeFromWatchlist(int movieId) async {
+    await remoteDataSource.removeFromWatchlist(movieId);
+  }
+
+  @override
+  Stream<List<Map<String, dynamic>>> getWatchlist() {
+    return remoteDataSource.getWatchlist();
+  }
+
+  @override
+  Future<void> addToHistory({
+    required int movieId,
+    required String title,
+    required String image,
+    required double rating,
+  }) async {
+    await remoteDataSource.addToHistory(
+      movieId: movieId,
+      title: title,
+      image: image,
+      rating: rating,
+    );
+  }
+
+  @override
+  Stream<List<Map<String, dynamic>>> getHistory() {
+    return remoteDataSource.getHistory();
   }
 }

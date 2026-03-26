@@ -37,8 +37,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dataSource = ProfileRemoteDataSourceImpl();
-    final repository = ProfileRepositoryImpl(dataSource);
+    final dataSource = ProfileRemoteDataSource();
+    final repository = ProfileRepositoryImpl(remoteDataSource: dataSource);
 
     return BlocProvider(
       create: (_) => UpdateProfileBloc(
