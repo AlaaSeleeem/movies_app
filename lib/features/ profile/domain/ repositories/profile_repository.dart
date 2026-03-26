@@ -5,6 +5,7 @@ abstract class ProfileRepository {
   Future<UserEntity> getProfile();
   Future<void> updateProfile(UserEntity user);
   Future<void> deleteAccount();
+  Future<bool> isInWatchlist(int movieId);
 
   // ── Watchlist ─────────────────────────────────────────────
   Future<void> addToWatchlist({

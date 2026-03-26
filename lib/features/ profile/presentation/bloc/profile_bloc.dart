@@ -20,24 +20,31 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<AddToHistoryEvent>(_onAddToHistory);
     on<CheckWatchlistEvent>(_onCheckWatchlist);
   }
-
   Future<void> _onToggleWatchlist(
       ToggleWatchlistEvent event,
       Emitter<ProfileState> emit,
       ) async {
+    final currentState = state;
+
+    bool currentValue = false;
+    if (currentState is WatchlistUpdated) {
+      currentValue = currentState.isInWatchlist;
+    }
+
+    final newValue = !currentValue;
+
+    emit(WatchlistUpdated(newValue)); // 🔥 instant UI update
+
     try {
-      final isIn = await _dataSource.isInWatchlist(event.movieId);
-      if (isIn) {
-        await _dataSource.removeFromWatchlist(event.movieId);
-        emit(const WatchlistUpdated(false));
-      } else {
+      if (newValue) {
         await _addToWatchlist(
           movieId: event.movieId,
           title: event.title,
           image: event.image,
           rating: event.rating,
         );
-        emit(const WatchlistUpdated(true));
+      } else {
+        await _dataSource.removeFromWatchlist(event.movieId);
       }
     } catch (e) {
       emit(ProfileError(e.toString()));

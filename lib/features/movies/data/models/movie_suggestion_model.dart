@@ -16,4 +16,12 @@ class MovieSuggestionModel extends Movie {
       rating: (json['rating'] ?? 0).toDouble(),
     );
   }
+  Movie toEntity() {
+    return Movie(
+      id: this.id,
+      title: this.title,
+      image: this.image, // Ensure your Movie entity uses 'image' or 'posterPath' consistently
+      rating: this.rating,
+    );
+  }
 }

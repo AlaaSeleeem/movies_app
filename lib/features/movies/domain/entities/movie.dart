@@ -11,4 +11,12 @@ class Movie {
     required this.image,
     required this.rating,
   });
+  Movie toEntity() {
+    return Movie(
+      id: id,
+      title: title,
+     image: '',
+      rating: 0,
+    );
+  }
 }

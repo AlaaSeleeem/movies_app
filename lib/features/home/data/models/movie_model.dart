@@ -1,3 +1,4 @@
+import '../../../movies/domain/entities/movie.dart';
 import '../../domain/entities/movie_entity.dart';
 
 class MovieModel extends MovieEntity {
@@ -18,6 +19,14 @@ class MovieModel extends MovieEntity {
       rating: (json['rating'] ?? 0).toDouble(),
       coverImage: json['large_cover_image'] ?? '',
       genres: List<String>.from(json['genres'] ?? []),
+    );
+  }
+  Movie toEntity() {
+    return Movie(
+      id: this.id,
+      title: this.title,
+      image: this.coverImage, // Ensure your Movie entity uses 'image' or 'posterPath' consistently
+      rating: this.rating,
     );
   }
 }

@@ -66,4 +66,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Stream<List<Map<String, dynamic>>> getHistory() {
     return remoteDataSource.getHistory();
   }
+  @override
+  Future<bool> isInWatchlist(int movieId) {
+    return remoteDataSource.isInWatchlist(movieId);
+  }
 }
