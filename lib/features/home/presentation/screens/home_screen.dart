@@ -15,6 +15,9 @@ import '../widgets/featured_section.dart';
 import '../widgets/custom_bottom_nav_bar.dart';
 import '../../../../../core/constants/app_colors.dart';
 import 'package:movies_app/features/%20profile/presentation/screens/update_profile_screen.dart';
+import '../../../movie_search/presentation/pages/search_screen.dart';
+import '../../../movie_search/presentation/bloc/search_bloc.dart';
+import '../../../movie_search/data/repositories_impl/movie_repository_impl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -106,14 +109,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           // ── Search ────────────────────────────────
-          const Scaffold(
-            backgroundColor: AppColors.black,
-            body: Center(
-              child: Text(
-                'Search',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
+          
+       BlocProvider(
+            create: (context) => MovieSearchBloc(
+              MovieSearchRepositoryImpl(),
             ),
+            child: const SearchScreen(),
           ),
 
           // ── Browse ───────────────────────────────

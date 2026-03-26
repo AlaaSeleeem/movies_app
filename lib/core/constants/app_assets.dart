@@ -52,4 +52,5 @@ class AppAssets {
   static const String historyIcon   = 'assets/icons/history_icon.png';
   static const String googleIcon    = 'assets/icons/google_icon.png';
   static const String loginIcon     = 'assets/icons/Login_Icon.png';
+  static const String emptySearch = 'assets/images/empty_search_result.png';
 }
