@@ -18,42 +18,31 @@ class SearchScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-// ── Search Bar ──────────────────────────────────
-            Padding(
-              padding: EdgeInsets.all(16.w),
-              child: TextField(
-                onChanged: (value) {
-                  context.read<MovieSearchBloc>().add(OnQueryChanged(value));
-                },
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  hintStyle: const TextStyle(color: Colors.white54),
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.all(12.w),
-                    child: Image.asset(
-                      AppAssets.searchIcon, 
-                      color: Colors.white,
-                    ),
-                  ),
-                  // These must be INSIDE InputDecoration
-                  filled: true,
-                  fillColor: const Color(0xFF282A28),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                    borderSide: const BorderSide(color: AppColors.yellow, width: 1),
-                  ),
-                ),
-              ),
+
+      // ── Search Bar ──────────────────────────────────
+      Padding(
+        padding: EdgeInsets.all(16.w),
+        child: TextField(
+          onChanged: (value) {
+            context.read<MovieSearchBloc>().add(OnQueryChanged(value));
+          },
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            hintText: 'Search',
+            hintStyle: const TextStyle(color: Colors.white54),
+            prefixIcon: Padding(
+              padding: EdgeInsets.all(12.w),
+              child: Image.asset(AppAssets.searchIcon, color: Colors.white),
             ),
+            filled: true,
+            fillColor: const Color(0xFF282A28),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.r),
+              borderSide: BorderSide.none,
+            ),
+          ),
+        ),
+      ),
             // ── Results Grid ────────────────────────────────
             Expanded(
               child: BlocBuilder<MovieSearchBloc, MovieSearchState>(
@@ -63,17 +52,19 @@ class SearchScreen extends StatelessWidget {
                   }
                   
                   if (state is SearchLoaded) {
-                    return GridView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3, // Matches Profile History
-                        crossAxisSpacing: 8.w,
-                        mainAxisSpacing: 8.h,
-                        childAspectRatio: 122 / 179,
-                      ),
-                      itemCount: state.movies.length,
-                      itemBuilder: (context, index) {
-                        final movie = state.movies[index];
+                return GridView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,       
+                    crossAxisSpacing: 12.w,    
+                    mainAxisSpacing: 12.h,
+                    childAspectRatio: 0.7,     
+                  ),
+                  itemCount: state.movies.length,
+                  itemBuilder: (context, index) {
+                    final movie = state.movies[index];
+
+
                         return GestureDetector(
                           onTap: () => Navigator.pushNamed(
                             context,
@@ -92,7 +83,7 @@ class SearchScreen extends StatelessWidget {
                                   errorBuilder: (_, __, ___) => Container(color: Colors.white10),
                                 ),
                               ),
-                              // Rating Badge (Same as Profile)
+                              // Rating Badge 
                               Positioned(
                                 top: 8.h, left: 6.w,
                                 child: Container(
@@ -118,7 +109,6 @@ class SearchScreen extends StatelessWidget {
                     );
                   }
 
-                  // Initial or Error State (Popcorn)
                   return Center(
                     child: Image.asset(AppAssets.emptySearch, width: 124.w),
                   );

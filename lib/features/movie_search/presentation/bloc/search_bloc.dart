@@ -9,18 +9,18 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
   MovieSearchBloc(this.repository) : super(SearchInitial()) {
 on<OnQueryChanged>((event, emit) async {
   if (event.query.trim().isEmpty) {
-    emit(SearchInitial()); // Shows the popcorn icon
+    emit(SearchInitial()); 
     return;
   }
 
-  emit(SearchLoading()); // Shows the loading spinner
+  emit(SearchLoading()); 
 
   try {
     final movies = await repository.searchMovies(event.query);
     if (movies.isEmpty) {
       emit(SearchError("No movies found for '${event.query}'"));
     } else {
-      emit(SearchLoaded(movies)); // Shows the 3-column grid
+      emit(SearchLoaded(movies)); 
     }
   } catch (e) {
     emit(SearchError("Please check your internet connection"));

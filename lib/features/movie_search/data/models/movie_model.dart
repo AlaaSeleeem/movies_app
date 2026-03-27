@@ -9,11 +9,12 @@ class MovieSearchModel extends MovieSearchEntity {
   });
 
   factory MovieSearchModel.fromJson(Map<String, dynamic> json) {
-    return MovieSearchModel(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? '',
-      imageUrl: json['medium_cover_image'] ?? '',
-      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
-    );
-  }
+  return MovieSearchModel(
+    id: json['id'] ?? 0,
+    title: json['title'] ?? 'No Title',
+    imageUrl: json['medium_cover_image'] ?? '', 
+    rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+  );
 }
+}
+
